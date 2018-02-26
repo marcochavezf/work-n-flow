@@ -7,20 +7,6 @@ import {
 } from '../../components/';
 import { TodoListWrapper } from './todo.style';
 
-function filterTodos(todos, search) {
-  const selectedTodos =
-    search === 'All'
-      ? todos
-      : todos.filter(todo => todo.completed === (search === 'Completed'));
-  let completed = 0;
-  selectedTodos.forEach(todo => {
-    if (todo.completed) {
-      completed += 1;
-    }
-  });
-  return { selectedTodos, completed };
-}
-
 function setLastTimeStopped(todo) {
   const { remainingTime, lastTimeStarted, lastTimeStopped } = todo;
   if (getStatus(todo) === todoStatus.IN_PROGRESS) {
@@ -79,7 +65,7 @@ export default class TodoList extends Component {
   }
 
   singleTodo(todo) {
-    const { deleteTodo, editTodo, colors, registerLayoutOnClick } = this.props;
+    const { deleteTodo, editTodo, colors, registerLayoutOnClick, daysAgo } = this.props;
     const onDelete = () => { 
       if (this.playInterval) {
         return alert(`There's a To-Do in progress`);
@@ -104,7 +90,7 @@ export default class TodoList extends Component {
         />
         <div className="isoTodoContentWrapper">
           <span className="isoTodoDate">{getTimeLabel(todo)}</span>
-          { status !== todoStatus.COMPLETED ? 
+          { status !== todoStatus.COMPLETED && daysAgo === 0 ? 
             <div>
               {status === todoStatus.PENDING ? 
                 <Button
@@ -160,9 +146,8 @@ export default class TodoList extends Component {
     this.setState({ search: event.target.value });
   }
   render() {
-    const { search } = this.state;
-    const { selectedTodos, completed } = filterTodos(this.props.todos, search);
-    const sortedTodos = sortTodos(selectedTodos);
+    const { todos } = this.props;
+    const sortedTodos = sortTodos(todos);
     return (
       <TodoListWrapper className="isoTodoContent">
         {/*

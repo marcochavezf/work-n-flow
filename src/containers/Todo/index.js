@@ -4,7 +4,9 @@ import { Layout } from 'antd';
 import Input from '../../components/uielements/input';
 import todoAction from '../../redux/todos/actions.js';
 import TodoList from './todoList';
+import TodoPaginator from './todoPaginator';
 import { TodoWrapper } from './todo.style';
+import { filterTodos } from '../../helpers/utility';
 
 const {
   addTodo,
@@ -18,10 +20,10 @@ const { Header, Content } = Layout;
 class ToDo extends Component {
   onClickListeners = [];
   state = {
-    newTodo: ''
+    newTodo: '',
+    daysAgo: 0
   }
   todoWrapperOnClick = () =>{
-    console.log('onClick');
     this.onClickListeners.forEach(listener => listener());
   }
   registerLayoutOnClick = (callback) => {
@@ -37,12 +39,19 @@ class ToDo extends Component {
       allCompleted,
       deleteCompleted,
     } = this.props;
+    const { daysAgo } = this.state;
     return (
       <Layout style={{ background: 'none' }}>
         <TodoWrapper className="isomorphicTodoComponent" onClick={this.todoWrapperOnClick}>
         <Content className="isoTodoContentBody">
+            
+          <TodoPaginator
+            daysAgo={daysAgo}
+            updateDaysAgo={(daysAgo) => this.setState({ daysAgo })}
+          />
           <TodoList
-              todos={todos}
+              todos={filterTodos(todos, daysAgo)}
+              daysAgo={daysAgo}
               deleteTodo={deleteTodo}
               editTodo={editTodo}
               colors={colors}
@@ -52,16 +61,19 @@ class ToDo extends Component {
             />
           </Content>
           <Header className="isoTodoHeader">
-            <Input
-              placeholder={'Type here for add a new todo'}
-              value={this.state.newTodo}
-              className="isoTodoInput"
-              onChange={event => this.setState({ newTodo: event.target.value })}
-              onPressEnter={event => {
-                this.setState({ newTodo: '' });
-                addTodo(event.target.value);
-              }}
-            />
+            { daysAgo === 0  ?
+              <Input
+                placeholder={'Type here for add a new todo'}
+                value={this.state.newTodo}
+                className="isoTodoInput"
+                onChange={event => this.setState({ newTodo: event.target.value })}
+                onPressEnter={event => {
+                  this.setState({ newTodo: '' });
+                  addTodo(event.target.value);
+                }}
+              />
+              : <div></div>
+            }
           </Header>
         </TodoWrapper>
       </Layout>

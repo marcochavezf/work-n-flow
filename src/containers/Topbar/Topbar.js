@@ -12,6 +12,11 @@ import {
   TopbarAddtoCart
 } from '../../components/topbar';
 
+import Box from '../../components/utility/box';
+import ContentHolder from '../../components/utility/contentHolder';
+import IntlMessages from '../../components/utility/intlMessages';
+import Pagination from '../../components/uielements/pagination';
+
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 

@@ -22,6 +22,19 @@ export function getToken() {
   }
 }
 
+export function filterTodos(todos, daysAgo = 0) {
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0);
+  const dayInMilliseconds = 1000 * 60 * 60 * 24;
+  const daysAgoLowerLimit = (new Date(todayDate - dayInMilliseconds * daysAgo)).getTime()
+  const daysAgoUpperLimit = (new Date(daysAgoLowerLimit + dayInMilliseconds)).getTime();
+  return todos.filter(todo => {
+    const createTime = new Date(todo.createTime);
+    const createTimeMilliseconds = createTime.getTime();
+    return daysAgoLowerLimit <= createTimeMilliseconds && createTimeMilliseconds <= daysAgoUpperLimit;
+  });
+}
+
 export function sortTodos(todos) {
   return todos
     .sort((a, b) => {

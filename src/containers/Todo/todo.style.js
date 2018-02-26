@@ -69,6 +69,23 @@ const WDTodoWrapper = styled.div`
 
   .isoTodoContentBody {
     width: 100%;
+
+    .todoPagination {
+      margin-top: -30px;
+      margin-bottom: 20px;
+    }
+
+    .paginationButton,
+    .paginationButton[disabled],
+    .paginationButton[disabled]:hover {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .spanTodoPagination {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
   }
 `;
 
