@@ -12,10 +12,12 @@ export function clearToken() {
   localStorage.removeItem('id_token');
 }
 
-export function getToken() {
+export function getLocalAuthData() {
   try {
     const idToken = localStorage.getItem('id_token');
-    return new Map({ idToken });
+    const profileString = localStorage.getItem('profile');
+    const profile = _.isEmpty(profileString) ? null : JSON.parse(profileString);
+    return new Map({ idToken, profile });
   } catch (err) {
     clearToken();
     return new Map();

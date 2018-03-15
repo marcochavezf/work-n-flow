@@ -551,6 +551,7 @@
   "page.signInPreview":
     "nombre de usuario  demo   contraseña  demodemo   o simplemente haga clic en cualquier botón.",
   "page.signInFacebook": "Iniciar sesión usando Facebook",
+  "page.signInTwitter": "Iniciar sesión usando Twitter",
   "page.signInGooglePlus": "Acceder con Google Plus",
   "page.signInAuth0": "Iniciar sesión con Auth0",
   "page.signInForgotPass": "Se te olvidó tu contraseña",
@@ -560,6 +561,7 @@
     "Estoy de acuerdo con los términos y condiciones",
   "page.signUpButton": "Regístrate",
   "page.signUpFacebook": "Registrate con Facebook",
+  "page.signUpTwitter": "Registrate con Twitter",
   "page.signUpGooglePlus": "Regístrese con Google Plus",
   "page.signUpAuth0": "Regístrese con Auth0",
   "page.signUpAlreadyAccount": "¿Ya tienes una cuenta? Registrarse.",

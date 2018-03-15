@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Avatar } from 'antd';
 import Popover from '../uielements/popover';
 import IntlMessages from '../utility/intlMessages';
-import userpic from '../../image/user1.png';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 
@@ -25,6 +25,7 @@ class TopbarUser extends Component {
   }
 
   render() {
+    const { profile } = this.props.auth;
     const content = (
       <TopbarDropdownWrapper className="isoUserDropdown">
         {/*
@@ -54,11 +55,16 @@ class TopbarUser extends Component {
         placement="bottomLeft"
       >
         <div className="isoImgWrapper">
-          <img alt="user" src={userpic} />
+          <Avatar size="large" src={profile.profile_image_url_https}/>
           <span className="userActivity online" />
         </div>
       </Popover>
     );
   }
 }
-export default connect(null, { logout })(TopbarUser);
+export default connect(
+  state => ({
+    auth: state.Auth.toJS()
+  }),
+  { logout }
+)(TopbarUser);

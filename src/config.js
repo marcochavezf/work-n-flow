@@ -48,12 +48,12 @@ const Auth0Config = {
   },
 };
 const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  projectId: '',
+  apiKey: 'AIzaSyBj5BRKuq157tNgqy3zTRpGUJwHyzCe0sA',
+  authDomain: 'work-n-flow.firebaseapp.com',
+  databaseURL: 'https://work-n-flow.firebaseio.com',
+  projectId: 'work-n-flow',
   storageBucket: '',
-  messagingSenderId: '',
+  messagingSenderId: '519184366848'
 };
 const googleConfig = {
   apiKey: '', //

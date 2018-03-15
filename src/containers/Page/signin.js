@@ -16,25 +16,28 @@ const { login } = authAction;
 class SignIn extends Component {
   state = {
     redirectToReferrer: false,
+    email: '',
+    password: '',
   };
   componentWillReceiveProps(nextProps) {
     if (
       this.props.isLoggedIn !== nextProps.isLoggedIn &&
-      nextProps.isLoggedIn === true
+      nextProps.isLoggedIn
     ) {
       this.setState({ redirectToReferrer: true });
     }
   }
-  handleLogin = () => {
+  handleLogin = (e) => {
     const { login } = this.props;
-    login();
-    this.props.history.push('/dashboard');
+    const { email, password } = this.state;
+    login({ email, password, provider: e.target.id });
+    //this.props.history.push('/dashboard');
   };
   render() {
     const from = { pathname: '/dashboard' };
     const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
+    const { idToken, error } = this.props.auth;
+    if (redirectToReferrer || idToken) {
       return <Redirect to={from} />;
     }
     return (
@@ -48,36 +51,54 @@ class SignIn extends Component {
             </div>
 
             <div className="isoSignInForm">
+              {/*
               <div className="isoInputWrapper">
-                <Input size="large" placeholder="Username" />
+                <Input 
+                  size="large" 
+                  placeholder="Email" 
+                  value={this.state.email}
+                  onChange={event => this.setState({ email: event.target.value })}
+                />
               </div>
 
               <div className="isoInputWrapper">
-                <Input size="large" type="password" placeholder="Password" />
+                <Input 
+                  size="large" 
+                  type="password" 
+                  placeholder="Password" 
+                  value={this.state.password}
+                  onChange={event => this.setState({ password: event.target.value })}
+                />
               </div>
 
               <div className="isoInputWrapper isoLeftRightComponent">
                 <Checkbox>
                   <IntlMessages id="page.signInRememberMe" />
                 </Checkbox>
-                <Button type="primary" onClick={this.handleLogin}>
+                <Button id={Firebase.EMAIL} onClick={this.handleLogin} type="primary">
                   <IntlMessages id="page.signInButton" />
                 </Button>
               </div>
-
-              <p className="isoHelperText">
-                <IntlMessages id="page.signInPreview" />
-              </p>
+              */}
 
               <div className="isoInputWrapper isoOtherLogin">
-                <Button onClick={this.handleLogin} type="primary btnFacebook">
+                { error ?
+                  <p className="isoHelperText">
+                    { error.message }
+                    {/*<IntlMessages id="page.signInPreview" />*/}
+                  </p> : '' }
+
+                <Button id={Firebase.FACEBOOK} onClick={this.handleLogin} type="primary btnFacebook">
                   <IntlMessages id="page.signInFacebook" />
                 </Button>
-                <Button onClick={this.handleLogin} type="primary btnGooglePlus">
+                <Button id={Firebase.TWITTER} onClick={this.handleLogin} type="primary btnTwitter">
+                  <IntlMessages id="page.signInTwitter" />
+                </Button>
+                <Button id={Firebase.GOOGLE} onClick={this.handleLogin} type="primary btnGooglePlus">
                   <IntlMessages id="page.signInGooglePlus" />
                 </Button>
 
-                {Auth0.isValid &&
+                {/* Auth0.isValid &&
                   <Button
                     onClick={() => {
                       Auth0.login(this.handleLogin);
@@ -85,10 +106,12 @@ class SignIn extends Component {
                     type="primary btnAuthZero"
                   >
                     <IntlMessages id="page.signInAuth0" />
-                  </Button>}
+                  </Button> */}
 
-                {Firebase.isValid && <FirebaseLogin login={this.handleLogin} />}
+                {/* Firebase.isValid && <FirebaseLogin login={this.handleLogin} /> */}
               </div>
+
+              {/*
               <div className="isoCenterComponent isoHelperWrapper">
                 <Link to="/forgotpassword" className="isoForgotPass">
                   <IntlMessages id="page.signInForgotPass" />
@@ -97,6 +120,7 @@ class SignIn extends Component {
                   <IntlMessages id="page.signInCreateAccount" />
                 </Link>
               </div>
+              */}
             </div>
           </div>
         </div>
@@ -107,7 +131,7 @@ class SignIn extends Component {
 
 export default connect(
   state => ({
-    isLoggedIn: state.Auth.get('idToken') !== null ? true : false,
+    auth: state.Auth.toJS()
   }),
   { login }
 )(SignIn);

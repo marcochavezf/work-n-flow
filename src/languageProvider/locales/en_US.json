@@ -536,6 +536,7 @@
   "page.signInPreview":
     "username: demo   password: demodemo   or just click on any button.",
   "page.signInFacebook": "Sign in with Facebook",
+  "page.signInTwitter": "Sign in with Twitter",
   "page.signInGooglePlus": "Sign in with Google Plus",
   "page.signInAuth0": "Sign in with Auth0",
   "page.signInForgotPass": "Forgot password",
@@ -544,6 +545,7 @@
   "page.signUpTermsConditions": "I agree with terms and condtions",
   "page.signUpButton": "Sign Up",
   "page.signUpFacebook": "Sign up with Facebook",
+  "page.signUpTwitter": "Sign up with Twitter",
   "page.signUpGooglePlus": "Sign up with Google Plus",
   "page.signUpAuth0": "Sign Up with Auth0",
   "page.signUpAlreadyAccount": "Already have an account? Sign in.",

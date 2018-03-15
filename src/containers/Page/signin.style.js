@@ -147,8 +147,18 @@ const SignInStyleWrapper = styled.div`
           border: 0;
           font-weight: 500;
 
+          &.btnTwitter {
+            background-color: #00aced;
+            margin-top: 15px;
+
+            &:hover {
+              background-color: darken(#00aced, 5%);
+            }
+          }
+
           &.btnFacebook {
             background-color: #3b5998;
+            margin-top: 15px;
 
             &:hover {
               background-color: darken(#3b5998, 5%);

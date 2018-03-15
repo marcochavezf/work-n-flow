@@ -1,18 +1,24 @@
 import { Map } from 'immutable';
-import { getToken } from '../../helpers/utility';
+import { getLocalAuthData } from '../../helpers/utility';
 import actions from './actions';
 
 const initState = new Map({
-  idToken: 'secret token'
+  idToken: null,
+  profile: null
 });
 
 export default function authReducer(
-  state = initState.merge(getToken()),
+  state = initState.merge(getLocalAuthData()),
   action
 ) {
   switch (action.type) {
     case actions.LOGIN_SUCCESS:
-      return state.set('idToken', action.token);
+      return new Map({
+        idToken: action.token,
+        profile: action.profile
+      });
+    case actions.LOGIN_ERROR:
+      return state.set('error', action.error);
     case actions.LOGOUT:
       return initState;
     default:

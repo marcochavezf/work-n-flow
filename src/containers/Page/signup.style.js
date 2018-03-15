@@ -131,9 +131,19 @@ const SignUpStyleWrapper = styled.div`
 
         &.btnFacebook {
           background-color: ${palette('color', 7)};
+          margin-top: 15px;
 
           &:hover {
             background-color: ${palette('color', 8)};
+          }
+        }
+
+        &.btnTwitter {
+          background-color: ${palette('color', 6)};
+          margin-top: 15px;
+
+          &:hover {
+            background-color: ${palette('color', 7)};
           }
         }
 
