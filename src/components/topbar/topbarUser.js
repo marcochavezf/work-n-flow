@@ -55,8 +55,10 @@ class TopbarUser extends Component {
         placement="bottomLeft"
       >
         <div className="isoImgWrapper">
-          <Avatar size="large" src={profile.profile_image_url_https}/>
+          <Avatar size="large" src={profile.profileImage}/>
+          {/*
           <span className="userActivity online" />
+          */}
         </div>
       </Popover>
     );

@@ -12,7 +12,7 @@ function setLastTimeStopped(todo) {
   if (getStatus(todo) === todoStatus.IN_PROGRESS) {
     const lastTimeStartedDate = new Date(_.last(lastTimeStarted));
     const newLastStoppedTime = new Date(lastTimeStartedDate.getTime() + remainingTime);
-    lastTimeStopped.push(newLastStoppedTime);
+    lastTimeStopped.push(newLastStoppedTime.getTime());
   }
   return todo;
 }
@@ -39,14 +39,14 @@ export default class TodoList extends Component {
       }
       updateTodo('remainingTime', newRemainingTime);
     }, timeInterval);
-    lastTimeStarted.push(new Date())
+    lastTimeStarted.push(new Date().getTime())
     updateTodo('lastTimeStarted', lastTimeStarted);
   }
 
   pauseTodo(todo, updateTodo) {
     const { lastTimeStopped } = todo;
     clearInterval(this.playInterval);
-    lastTimeStopped.push(new Date());
+    lastTimeStopped.push(new Date().getTime());
     //TODO: we could update the remaining milliseconds here
     updateTodo('lastTimeStopped', lastTimeStopped);
     this.playInterval = null;
@@ -59,18 +59,18 @@ export default class TodoList extends Component {
 
   completeTodo(todo, updateTodo) {
     const { lastTimeStopped } = todo;
-    lastTimeStopped.push(new Date());
+    lastTimeStopped.push(new Date().getTime());
     updateTodo('remainingTime', 0);
     updateTodo('lastTimeStopped', lastTimeStopped);
   }
 
   singleTodo(todo) {
     const { deleteTodo, editTodo, colors, registerLayoutOnClick, daysAgo } = this.props;
-    const onDelete = () => { 
+    const onDelete = () => {
       if (this.playInterval) {
         return alert(`There's a To-Do in progress`);
       }
-      deleteTodo(todo.id);
+      deleteTodo(todo);
     };
     const updateTodo = (key, value) => {
       todo[key] = value;
@@ -146,7 +146,7 @@ export default class TodoList extends Component {
     this.setState({ search: event.target.value });
   }
   render() {
-    const { todos } = this.props;
+    const { todos, isLoading, daysAgo } = this.props;
     const sortedTodos = sortTodos(todos);
     return (
       <TodoListWrapper className="isoTodoContent">
@@ -165,11 +165,10 @@ export default class TodoList extends Component {
         */}
 
         <div className="isoTodoListWrapper">
-          {sortedTodos.length > 0 ? (
-            sortedTodos.map(note => this.singleTodo(note))
-          ) : (
-            <h3 className="isoNoTodoFound">Add a new task</h3>
-          )}
+          { isLoading ? <h3 className="isoNoTodoFound">Loading...</h3>
+            : sortedTodos.length > 0 ? sortedTodos.map(note => this.singleTodo(note))
+            : daysAgo === 0 ? <h3 className="isoNoTodoFound">Add a new task</h3>
+            : <h3 className="isoNoTodoFound">No tasks to display</h3> }
         </div>
         <div className="isoTodoFooter">
         {/*

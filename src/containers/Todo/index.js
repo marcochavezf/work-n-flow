@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+// import { compose } from 'redux'
+import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
+import { isLoaded, firebaseConnect } from 'react-redux-firebase';
 import { Layout } from 'antd';
 import Input from '../../components/uielements/input';
 import todoAction from '../../redux/todos/actions.js';
@@ -7,9 +10,10 @@ import TodoList from './todoList';
 import TodoPaginator from './todoPaginator';
 import { TodoWrapper } from './todo.style';
 import { filterTodos } from '../../helpers/utility';
+import * as _ from 'lodash';
 
 const {
-  addTodo,
+  // addTodo,
   editTodo,
   deleteTodo,
   allCompleted,
@@ -30,8 +34,10 @@ class ToDo extends Component {
     this.onClickListeners.push(callback);
   }
   render() {
+    let { todos } = this.props;
     const {
-      todos,
+      // todos,
+      isLoading,
       colors,
       addTodo,
       editTodo,
@@ -39,6 +45,19 @@ class ToDo extends Component {
       allCompleted,
       deleteCompleted,
     } = this.props;
+    // const addTodo = (todo) => {
+    //   this.props.firebase.push('todos', {
+    //     id: new Date(),
+    //     todo: todo,
+    //     createTime: new Date(),
+    //     lastTimeStopped: [],
+    //     lastTimeStarted: [],
+    //     remainingTime: 1500000
+    //   })
+    // }
+    if (!_.isArray(todos)) {
+      todos =[];
+    }
     const { daysAgo } = this.state;
     return (
       <Layout style={{ background: 'none' }}>
@@ -50,7 +69,8 @@ class ToDo extends Component {
             updateDaysAgo={(daysAgo) => this.setState({ daysAgo })}
           />
           <TodoList
-              todos={filterTodos(todos, daysAgo)}
+              todos={filterTodos(todos || [], daysAgo)}
+              isLoading={isLoading}
               daysAgo={daysAgo}
               deleteTodo={deleteTodo}
               editTodo={editTodo}
@@ -61,7 +81,7 @@ class ToDo extends Component {
             />
           </Content>
           <Header className="isoTodoHeader">
-            { daysAgo === 0  ?
+            { daysAgo === 0 && !isLoading ?
               <Input
                 placeholder={'Type here for add a new todo'}
                 value={this.state.newTodo}
@@ -82,16 +102,60 @@ class ToDo extends Component {
 }
 
 function mapStateToProps(state) {
-  const { todos, colors } = state.Todos.toJS();
+  // const { todos } = state.firebase.ordered;
+  const { todos } = state.firebase.data;
+  const { colors } = state.Todos.toJS();
+  // const { todos, colors } = state.Todos.toJS();
   return {
-    todos,
+    todos: _.map(todos, (todo, id) => {
+      return Object.assign(todo, { 
+        id,
+        lastTimeStarted: _.map(todo.lastTimeStarted),
+        lastTimeStopped: _.map(todo.lastTimeStopped),
+      });
+    }),
     colors,
+    isLoading: !isLoaded(todos)
   };
 }
-export default connect(mapStateToProps, {
-  addTodo,
-  editTodo,
-  deleteTodo,
-  deleteCompleted,
-  allCompleted,
-})(ToDo);
+// export default connect(mapStateToProps, {
+//   addTodo,
+//   editTodo,
+//   deleteTodo,
+//   deleteCompleted,
+//   allCompleted,
+// })(ToDo);
+
+export default compose(
+  firebaseConnect(props => [
+    { path: 'todos', queryParams: [
+      // 'orderByKey'
+    ] }
+  ]),
+  withHandlers({
+    addTodo: props => todo => {
+      return props.firebase.push('todos', {
+        todo: todo,
+        createTime: new Date().getTime(),
+        lastTimeStopped: [],
+        lastTimeStarted: [],
+        remainingTime: 1500000
+      });
+    },
+    editTodo: props => todo => {
+      const todoId = todo.id;
+      return props.firebase.set(`todos/${ todoId }`, _.omit(todo, ['id']));
+    },
+    deleteTodo: props => todo => {
+      const todoId = todo.id;
+      return props.firebase.remove(`todos/${ todoId }`);
+    },
+  }),
+  connect(mapStateToProps, {
+    // addTodo,
+    // editTodo,
+    // deleteTodo,
+    deleteCompleted,
+    allCompleted,
+  })
+)(ToDo)

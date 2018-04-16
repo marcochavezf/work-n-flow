@@ -1,16 +1,7 @@
 import firebase from 'firebase';
-import * as _ from 'lodash';
 import { firebaseConfig } from '../../config.js';
 
 const valid = firebaseConfig  && firebaseConfig.apiKey && firebaseConfig.projectId;
-
-function getAuthData(provider){
-  return firebaseAuth().signInWithPopup(provider).then((result) => {
-    const token = result.credential.accessToken;
-    const profile = _.pick(result.additionalUserInfo.profile, ['profile_image_url', 'profile_image_url_https', 'name']);
-    return { token, profile };
-  });
-}
 
 firebase.initializeApp(firebaseConfig);
 const firebaseAuth = firebase.auth;
@@ -26,24 +17,24 @@ class FirebaseHelper {
     this.logout = this.logout.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
   }
-  login(provider, info) {
-    if (provider === this.EMAIL) {
+  login(providerType, info) {
+    if (providerType === this.EMAIL) {
       return firebaseAuth().signInWithEmailAndPassword(
         info.email,
         info.password
       );
     } else 
-    if (provider === this.FACEBOOK) {
+    if (providerType === this.FACEBOOK) {
       const provider = new firebaseAuth.FacebookAuthProvider();
-      return getAuthData(provider);
+      return this.getAuthData(provider, providerType);
     } else 
-    if (provider === this.TWITTER) {
+    if (providerType === this.TWITTER) {
       const provider = new firebaseAuth.TwitterAuthProvider();
-      return getAuthData(provider);
+      return this.getAuthData(provider, providerType);
     } else 
-    if (provider === this.GOOGLE) {
+    if (providerType === this.GOOGLE) {
       const provider = new firebaseAuth.GoogleAuthProvider();
-      return getAuthData(provider);
+      return this.getAuthData(provider, providerType);
     }
     /*
     switch (provider) {
@@ -70,6 +61,44 @@ class FirebaseHelper {
     }
     */
   }
+
+  async getAuthData(provider, providerType){
+    const result = await firebaseAuth().signInWithPopup(provider);
+    console.log('result', result);
+    let profile = null;
+    const token = result.credential.accessToken;
+    switch (providerType) {
+      case this.FACEBOOK:
+        profile = {
+          profileImage: result.additionalUserInfo.profile.picture.data.url,
+          name: result.additionalUserInfo.profile.name
+        };
+        break;
+
+      case this.TWITTER:
+        profile = {
+          profileImage: result.additionalUserInfo.profile.profile_image_url_https,
+          name: result.additionalUserInfo.profile.name
+        }
+        break;
+
+      case this.GOOGLE:
+        profile = {
+          profileImage: result.additionalUserInfo.profile.picture,
+          name: result.additionalUserInfo.profile.name
+        }
+        break;
+
+      default:
+        break;
+    }
+    return { token, profile };
+  }
+
+  getInstance(){
+    return firebase;
+  }
+
   logout() {
     return firebaseAuth().signOut();
   }

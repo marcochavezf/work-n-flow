@@ -16,7 +16,7 @@ export default function TodoPaginator(props) {
         {daysAgo === 0 ?
           'Today' :
           daysAgo === 1 ?
-            'One day ago' :
+            'Yesterday' :
             `${daysAgo} days ago`}
       </span>
       <Button
