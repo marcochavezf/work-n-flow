@@ -2,6 +2,7 @@ const todoActions = {
   CHANGE_TODO: 'CHANGE_TODO',
   ALL_COMPLETED: 'ALL_COMPLETED',
   DELETE_COMPLETED: 'DELETE_COMPLETED',
+  UPDATE_DAYS_AGO: 'UPDATE_DAYS_AGO',
 
   addTodo: (todo) => {
     return (dispatch, getState) => {
@@ -63,6 +64,14 @@ const todoActions = {
       dispatch({
         type: todoActions.CHANGE_TODO,
         todos,
+      });
+    };
+  },
+  updateDaysAgo: (daysAgo) => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: todoActions.UPDATE_DAYS_AGO,
+        daysAgo,
       });
     };
   },

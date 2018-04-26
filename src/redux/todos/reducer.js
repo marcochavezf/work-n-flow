@@ -1,13 +1,14 @@
 import { Map } from 'immutable';
-import fakeData from '../../containers/Todo/fakeData';
 import todoActions from './actions';
 
 const colors = ['#ff9009', '#42a5f5', '#7ED321'];
-const todos = new fakeData(5, colors.length).getAll();
+const todos = [];
+const daysAgo = 0;
 
 const initState = new Map({
   todos,
-  colors
+  colors,
+  daysAgo
 });
 
 export default function todoReducer(state = initState, action) {
@@ -29,6 +30,8 @@ export default function todoReducer(state = initState, action) {
         }
       });
       return state.set('todos', newtodos);
+    case todoActions.UPDATE_DAYS_AGO:
+      return state.set('daysAgo', action.daysAgo);
     default:
       return state;
   }
