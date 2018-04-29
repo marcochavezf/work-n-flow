@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { isLoaded, firebaseConnect } from 'react-redux-firebase';
-import { filterTodos } from '../../helpers/utility';
+import { getTodosPath } from '../../helpers/utility';
 import Input from '../../components/uielements/input';
 import TodoList from './todoList';
 import TodoPaginator from './todoPaginator';
@@ -36,7 +36,7 @@ class TodoContent extends Component {
             updateDaysAgo={updateDaysAgo}
           />
           <TodoList
-            todos={filterTodos(todos || [], daysAgo)}
+            todos={todos}
             isLoading={isLoading}
             daysAgo={daysAgo}
             deleteTodo={deleteTodo}
@@ -69,7 +69,11 @@ class TodoContent extends Component {
 
 function mapStateToProps(state) {
   // const { todos } = state.firebase.ordered;
-  const { todos } = state.firebase.data;
+  const { daysAgo } = state.Todos.toJS();
+  const todosPath = getTodosPath(daysAgo);
+  const [ todosKey, daysAgoKey ] = todosPath.split('/');
+  const todosFirebase = state.firebase.data[todosKey];
+  const todos = _.has(todosFirebase, daysAgoKey) ? todosFirebase[daysAgoKey] : {};
   return {
     todos: _.map(todos, (todo, id) => {
       return Object.assign(todo, { 
@@ -78,21 +82,22 @@ function mapStateToProps(state) {
         lastTimeStopped: _.map(todo.lastTimeStopped),
       });
     }),
-    isLoading: !isLoaded(todos)
+    isLoading: !isLoaded(todos) || !_.has(todosFirebase, daysAgoKey)
   };
 }
 
 export default compose(
   firebaseConnect((props, store) => { 
-    debugger;
+    const todosPath = getTodosPath(props.daysAgo);
     return [
-    { path: 'todos', queryParams: [
+    { path: todosPath, queryParams: [
       // 'orderByKey'
     ] }
   ]}),
   withHandlers({
     addTodo: props => todo => {
-      return props.firebase.push('todos', {
+      const todosPath = getTodosPath(props.daysAgo);
+      return props.firebase.push(todosPath, {
         todo: todo,
         createTime: new Date().getTime(),
         lastTimeStopped: [],
@@ -101,12 +106,14 @@ export default compose(
       });
     },
     editTodo: props => todo => {
+      const todosPath = getTodosPath(props.daysAgo);
       const todoId = todo.id;
-      return props.firebase.set(`todos/${ todoId }`, _.omit(todo, ['id']));
+      return props.firebase.set(`${ todosPath }/${ todoId }`, _.omit(todo, ['id']));
     },
     deleteTodo: props => todo => {
+      const todosPath = getTodosPath(props.daysAgo);
       const todoId = todo.id;
-      return props.firebase.remove(`todos/${ todoId }`);
+      return props.firebase.remove(`${ todosPath }/${ todoId }`);
     },
   }),
   connect(mapStateToProps)

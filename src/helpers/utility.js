@@ -1,6 +1,7 @@
 import React from 'react';
 import { Map } from 'immutable';
 import * as _ from 'lodash';
+const dayInMilliseconds = 1000 * 60 * 60 * 24;
 
 export const todoStatus = { 
   COMPLETED: 'completed',
@@ -24,10 +25,10 @@ export function getLocalAuthData() {
   }
 }
 
+//deprecated
 export function filterTodos(todos, daysAgo = 0) {
   const todayDate = new Date();
   todayDate.setHours(0, 0, 0, 0);
-  const dayInMilliseconds = 1000 * 60 * 60 * 24;
   const daysAgoLowerLimit = (new Date(todayDate - dayInMilliseconds * daysAgo)).getTime()
   const daysAgoUpperLimit = (new Date(daysAgoLowerLimit + dayInMilliseconds)).getTime();
   return todos.filter(todo => {
@@ -35,6 +36,14 @@ export function filterTodos(todos, daysAgo = 0) {
     const createTimeMilliseconds = createTime.getTime();
     return daysAgoLowerLimit <= createTimeMilliseconds && createTimeMilliseconds <= daysAgoUpperLimit;
   });
+}
+
+export function getTodosPath(daysAgo) {
+  const todayDate = new Date();
+  const dateDaysAgo = new Date(todayDate - dayInMilliseconds * daysAgo)
+  const dateDaysAgoKey = `${dateDaysAgo.getFullYear()}-${dateDaysAgo.getMonth()}-${dateDaysAgo.getDate()}`;
+  const todosPath = `todos/${dateDaysAgoKey}`;
+  return todosPath;
 }
 
 export function sortTodos(todos) {
