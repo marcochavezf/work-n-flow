@@ -67,13 +67,11 @@ class TodoContent extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  // const { todos } = state.firebase.ordered;
-  const { daysAgo } = state.Todos.toJS();
-  const todosPath = getTodosPath(daysAgo);
-  const [ todosKey, daysAgoKey ] = todosPath.split('/');
-  const todosFirebase = state.firebase.data[todosKey];
-  const todos = _.has(todosFirebase, daysAgoKey) ? todosFirebase[daysAgoKey] : {};
+function mapStateToProps(state, ownProps) {
+  const todosPath = getTodosPath(ownProps);
+  const [ userId, todosKey, daysAgoKey ] = todosPath.split('/');
+  const userData = state.firebase.data[userId];
+  const todos = _.has(userData, todosKey) ? userData[todosKey][daysAgoKey] : {};
   return {
     todos: _.map(todos, (todo, id) => {
       return Object.assign(todo, { 
@@ -82,13 +80,13 @@ function mapStateToProps(state) {
         lastTimeStopped: _.map(todo.lastTimeStopped),
       });
     }),
-    isLoading: !isLoaded(todos) || !_.has(todosFirebase, daysAgoKey)
+    isLoading: !isLoaded(todos) || !_.has(userData, todosKey)
   };
 }
 
 export default compose(
   firebaseConnect((props, store) => { 
-    const todosPath = getTodosPath(props.daysAgo);
+    const todosPath = getTodosPath(props);
     return [
     { path: todosPath, queryParams: [
       // 'orderByKey'
@@ -96,7 +94,7 @@ export default compose(
   ]}),
   withHandlers({
     addTodo: props => todo => {
-      const todosPath = getTodosPath(props.daysAgo);
+      const todosPath = getTodosPath(props);
       return props.firebase.push(todosPath, {
         todo: todo,
         createTime: new Date().getTime(),
@@ -106,12 +104,12 @@ export default compose(
       });
     },
     editTodo: props => todo => {
-      const todosPath = getTodosPath(props.daysAgo);
+      const todosPath = getTodosPath(props);
       const todoId = todo.id;
       return props.firebase.set(`${ todosPath }/${ todoId }`, _.omit(todo, ['id']));
     },
     deleteTodo: props => todo => {
-      const todosPath = getTodosPath(props.daysAgo);
+      const todosPath = getTodosPath(props);
       const todoId = todo.id;
       return props.firebase.remove(`${ todosPath }/${ todoId }`);
     },

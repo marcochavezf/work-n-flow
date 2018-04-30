@@ -19,11 +19,13 @@ class ToDo extends Component {
       colors,
       updateDaysAgo,
       daysAgo,
+      userId,
     } = this.props;
     return (
       <Layout style={{ background: 'none' }}>
         <TodoWrapper className="isomorphicTodoComponent" onClick={this.todoWrapperOnClick}>
           <TodoContent
+            userId={userId}
             colors={colors}
             daysAgo={daysAgo}
             updateDaysAgo={updateDaysAgo}
@@ -37,9 +39,11 @@ class ToDo extends Component {
 
 function mapStateToProps(state) {
   const { colors, daysAgo } = state.Todos.toJS();
+  const { uid: userId } = state.Auth.toJS();
   return {
     colors,
     daysAgo,
+    userId,
   };
 }
 

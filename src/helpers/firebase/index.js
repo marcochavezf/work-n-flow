@@ -67,6 +67,7 @@ class FirebaseHelper {
     console.log('result', result);
     let profile = null;
     const token = result.credential.accessToken;
+    const { uid } = result.user;
     switch (providerType) {
       case this.FACEBOOK:
         profile = {
@@ -79,7 +80,7 @@ class FirebaseHelper {
         profile = {
           profileImage: result.additionalUserInfo.profile.profile_image_url_https,
           name: result.additionalUserInfo.profile.name
-        }
+        };
         break;
 
       case this.GOOGLE:
@@ -92,7 +93,7 @@ class FirebaseHelper {
       default:
         break;
     }
-    return { token, profile };
+    return { token, profile, uid };
   }
 
   getInstance(){

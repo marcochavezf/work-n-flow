@@ -4,7 +4,8 @@ import actions from './actions';
 
 const initState = new Map({
   idToken: null,
-  profile: null
+  profile: null,
+  uid: null,
 });
 
 export default function authReducer(
@@ -15,7 +16,8 @@ export default function authReducer(
     case actions.LOGIN_SUCCESS:
       return new Map({
         idToken: action.token,
-        profile: action.profile
+        profile: action.profile,
+        uid: action.uid,
       });
     case actions.LOGIN_ERROR:
       return state.set('error', action.error);

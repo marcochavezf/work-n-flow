@@ -7,12 +7,13 @@ import actions from './actions';
 export function* loginRequest() {
   yield takeEvery('LOGIN_REQUEST', function*({ provider, email, password }) {
     try {
-      const { token, profile } = yield FirebaseHelper.login(provider, { email, password });
-      console.log(token, profile);
+      const { token, profile, uid } = yield FirebaseHelper.login(provider, { email, password });
+      console.log(token, profile, uid);
       yield put({
         type: actions.LOGIN_SUCCESS,
+        uid,
         token,
-        profile
+        profile,
       });
     } catch (error) {
       console.log(error)
@@ -23,6 +24,7 @@ export function* loginRequest() {
 
 export function* loginSuccess() {
   yield takeEvery(actions.LOGIN_SUCCESS, function*(payload) {
+    yield localStorage.setItem('uid', payload.uid);
     yield localStorage.setItem('id_token', payload.token);
     yield localStorage.setItem('profile', JSON.stringify(payload.profile));
   });

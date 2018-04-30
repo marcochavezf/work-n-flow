@@ -15,10 +15,11 @@ export function clearToken() {
 
 export function getLocalAuthData() {
   try {
+    const uid = localStorage.getItem('uid');
     const idToken = localStorage.getItem('id_token');
     const profileString = localStorage.getItem('profile');
     const profile = _.isEmpty(profileString) ? null : JSON.parse(profileString);
-    return new Map({ idToken, profile });
+    return new Map({ uid, idToken, profile });
   } catch (err) {
     clearToken();
     return new Map();
@@ -38,11 +39,11 @@ export function filterTodos(todos, daysAgo = 0) {
   });
 }
 
-export function getTodosPath(daysAgo) {
+export function getTodosPath({ daysAgo, userId }) {
   const todayDate = new Date();
   const dateDaysAgo = new Date(todayDate - dayInMilliseconds * daysAgo)
   const dateDaysAgoKey = `${dateDaysAgo.getFullYear()}-${dateDaysAgo.getMonth()}-${dateDaysAgo.getDate()}`;
-  const todosPath = `todos/${dateDaysAgoKey}`;
+  const todosPath = `${userId}/todos/${dateDaysAgoKey}`;
   return todosPath;
 }
 
