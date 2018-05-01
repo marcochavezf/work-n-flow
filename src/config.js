@@ -2,9 +2,9 @@ export default {
   apiUrl: 'http://yoursite.com/api/',
 };
 const siteConfig = {
-  siteName: 'ISOMORPHIC',
+  siteName: 'Work-N-Flow',
   siteIcon: 'ion-flash',
-  footerText: 'Isomorphic ©2017 Created by RedQ, Inc',
+  footerText: 'Work And Flow ©2018',
 };
 
 const themeConfig = {

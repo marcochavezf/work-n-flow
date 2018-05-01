@@ -27,7 +27,7 @@ const WDTodoWrapper = styled.div`
     .isoTodoInput {
       font-size: 14px;
       font-weight: 400;
-      color: ${palette('text', 2)};
+      color: ${palette('text', 3)};
       line-height: inherit;
       height: 50px;
       padding: 0 15px;

@@ -92,12 +92,13 @@ export function getTimeLabel(todo){
     /* if the block isn't completed then display the remaining time (in minutes and seconds) */
     case todoStatus.IN_PROGRESS:
     case todoStatus.PENDING:
+      const labelRemainingTime = getLabelRemainingTime(todo.remainingTime);
       return (
         <div>
           <span className="isoTodoDate">
             Remaining time: 
             <b className="isoTodoRemainingTime">
-              { getLabelRemainingTime(todo.remainingTime) }
+              { labelRemainingTime }
             </b>
           </span>
           
@@ -121,7 +122,7 @@ export function getStatus(todo) {
   return status;
 }
 
-function getLabelRemainingTime(millis){
+export function getLabelRemainingTime(millis){
   var minutes = Math.floor(millis / 60000);
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
@@ -167,6 +168,7 @@ export function timeDifference(givenTime) {
     }
     const minutes = Math.floor((temp %= 3600) / 60);
     if (minutes) {
+      timeLabel += hours ? 'and ' : '';
       timeLabel += `${minutes} minute${numberEnding(minutes)} `;
     }
     if (_.isEmpty(timeLabel)) {

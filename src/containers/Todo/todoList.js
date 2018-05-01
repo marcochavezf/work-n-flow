@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import * as _ from 'lodash';
+import Sound from 'react-sound';
 import Button from '../../components/uielements/button';
-import { getTimeLabel, getStatus, sortTodos, todoStatus } from '../../helpers/utility';
+import { getTimeLabel, getLabelRemainingTime, getStatus, sortTodos, todoStatus } from '../../helpers/utility';
 import {
   EditableComponent,
 } from '../../components/';
@@ -21,6 +22,7 @@ export default class TodoList extends Component {
   playInterval = null
   state = {
     search: 'All',
+    playCompletedSound: false
   }
 
   playTodo(todo, updateTodo) {
@@ -36,6 +38,8 @@ export default class TodoList extends Component {
       if (newRemainingTime <= 0) {
         newRemainingTime = 0;
         this.pauseTodo(todo, updateTodo);
+        this.setState({ playCompletedSound: true });
+        setTimeout(() => this.setState({ playCompletedSound: false }), 10000);
       }
       updateTodo('remainingTime', newRemainingTime);
     }, timeInterval);
@@ -76,12 +80,16 @@ export default class TodoList extends Component {
       todo[key] = value;
       editTodo(todo);
     };
-    if (!this.playInterval) {
-      setLastTimeStopped(todo);
-    }
     const status = getStatus(todo);
     const colorByStatus = [todoStatus.PENDING, todoStatus.COMPLETED, todoStatus.IN_PROGRESS];
     const color = colors[colorByStatus.indexOf(status)];
+
+    if (!this.playInterval) {
+      setLastTimeStopped(todo);
+    }
+    if (status === todoStatus.IN_PROGRESS) {
+      document.title = getLabelRemainingTime(todo.remainingTime);
+    }
     return (
       <div className="isoTodoList" key={todo.id}>
         <div
@@ -147,9 +155,18 @@ export default class TodoList extends Component {
   }
   render() {
     const { todos, isLoading, daysAgo } = this.props;
+    const { playCompletedSound } = this.state;
     const sortedTodos = sortTodos(todos);
+    if (!sortedTodos.find(todo => getStatus(todo) === todoStatus.IN_PROGRESS)) {
+      document.title = 'Work-N-Flow';
+    }
     return (
       <TodoListWrapper className="isoTodoContent">
+        { playCompletedSound ? 
+          <Sound
+            url="sounds/zen-temple-bell.mp3"
+            playStatus={Sound.status.PLAYING}
+          /> : <div></div> }
         {/*
         <div className="isoTodoStatusTab">
           <RadioGroup
