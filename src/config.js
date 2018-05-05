@@ -2,9 +2,9 @@ export default {
   apiUrl: 'http://yoursite.com/api/',
 };
 const siteConfig = {
-  siteName: 'Work-N-Flow',
+  siteName: 'Work & Flow',
   siteIcon: 'ion-flash',
-  footerText: 'Work And Flow ©2018',
+  footerText: 'Work & Flow ©2018',
 };
 
 const themeConfig = {

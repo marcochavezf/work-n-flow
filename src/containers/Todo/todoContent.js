@@ -26,6 +26,8 @@ class TodoContent extends Component {
       updateDaysAgo,
       deleteCompleted,
       daysAgo,
+      playSound,
+      changeTitle,
       registerLayoutOnClick,
     } = this.props;
     return (
@@ -42,6 +44,8 @@ class TodoContent extends Component {
             deleteTodo={deleteTodo}
             editTodo={editTodo}
             colors={colors}
+            playSound={playSound}
+            changeTitle={changeTitle}
             allCompleted={allCompleted}
             deleteCompleted={deleteCompleted}
             registerLayoutOnClick={registerLayoutOnClick}

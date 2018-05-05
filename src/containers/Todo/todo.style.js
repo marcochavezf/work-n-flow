@@ -207,12 +207,23 @@ const WDTodoListWrapper = styled.div`
           props['data-rtl'] === 'rtl' ? '0 30px 0 35px' : '0 30px 0 35px'};
         position: relative;
 
+        .isoTodoNumber {
+          font-size: 12px;
+          font-weight: 400;
+          color: ${palette('text', 2)};
+          line-height: inherit;
+          display: inline-block;
+          margin-right: 5px;
+          margin-bottom: 10px;
+          text-transform: capitalize;
+        }
+
         .isoTodoDate {
           font-size: 12px;
           font-weight: 400;
           color: ${palette('grayscale', 0)};
           line-height: inherit;
-          display: flex;
+          display: inline-block;
           margin-bottom: 10px;
           text-transform: capitalize;
         }

@@ -69,7 +69,7 @@ export function sortTodos(todos) {
       if (statusB !== todoStatus.COMPLETED) {
         return -1;
       }
-    })
+    });
 }
 
 export function getTimeLabel(todo){
