@@ -13,7 +13,7 @@ const defaultTitle = 'Work & Flow';
 const soundUrls = {};
 soundUrls[todoStatus.COMPLETED] = 'sounds/a-tone.mp3';
 soundUrls[todoStatus.IN_PROGRESS] = 'sounds/a-tone.mp3';
-soundUrls[todoStatus.PENDING] = 'sounds/electronic-chime.mp3';
+// soundUrls[todoStatus.PENDING] = 'sounds/electronic-chime.mp3';
 class ToDo extends Component {
   state = {
     title: defaultTitle,

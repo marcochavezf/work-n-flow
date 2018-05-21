@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import clone from 'clone';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Menu from '../../components/uielements/menu';
-import IntlMessages from '../../components/utility/intlMessages';
-import getDevSidebar from '../../customApp/sidebar';
+// import IntlMessages from '../../components/utility/intlMessages';
+// import getDevSidebar from '../../customApp/sidebar';
 import SidebarWrapper from './sidebar.style';
 
 import appActions from '../../redux/app/actions';
 import Logo from '../../components/utility/logo';
 import { rtl } from '../../config/withDirection';
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+// const SubMenu = Menu.SubMenu;
+// const MenuItemGroup = Menu.ItemGroup;
 const { Sider } = Layout;
 
 const {
@@ -136,6 +136,7 @@ class Sidebar extends Component {
               onOpenChange={this.onOpenChange}
               className="isoDashboardMenu"
             >
+              {/*
               <Menu.Item key="todo">
                 <Link to={`${url}/todo`}>
                   <span className="isoMenuHolder" style={submenuColor}>
@@ -146,6 +147,7 @@ class Sidebar extends Component {
                   </span>
                 </Link>
               </Menu.Item>
+              */}
 
               {/*getDevSidebar(url, submenuColor) */}
             </Menu>

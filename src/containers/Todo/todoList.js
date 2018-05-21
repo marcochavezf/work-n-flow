@@ -105,7 +105,7 @@ export default class TodoList extends Component {
           )}
         */}
         </div>
-        <ScrollToBottomTodoListComponent totalTodos={ sortedTodos.length } />
+        <ScrollToBottomTodoListComponent daysAgo={daysAgo} totalTodos={sortedTodos.length} />
       </TodoListWrapper>
     );
   }
@@ -117,9 +117,9 @@ class ScrollToBottomTodoListComponent extends Component {
   }
 
   componentDidUpdate() {
-    const { totalTodos } = this.props;
+    const { totalTodos, daysAgo } = this.props;
     //scroll to the bottom only when a new task is added
-    if (this.prevTotalTodos < totalTodos) {
+    if (this.prevTotalTodos < totalTodos && daysAgo <= 0) {
       this.scrollToBottom();
     }
     this.prevTotalTodos = totalTodos;

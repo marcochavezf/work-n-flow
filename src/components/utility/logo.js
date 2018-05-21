@@ -11,7 +11,7 @@ export default function({ collapsed }) {
         ? <div>
             <h3>
               <Link to="/dashboard">
-                <i className={siteConfig.siteIcon} />
+                {/* <i className={siteConfig.siteIcon} /> */}
               </Link>
             </h3>
           </div>

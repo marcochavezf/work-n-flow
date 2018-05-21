@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { isLoaded, firebaseConnect } from 'react-redux-firebase';
-import { getTodosPath } from '../../helpers/utility';
+import { getTodosPath, getTodoPath } from '../../helpers/utility';
 import Input from '../../components/uielements/input';
 import TodoList from './todoList';
 import TodoPaginator from './todoPaginator';
@@ -108,14 +108,17 @@ export default compose(
       });
     },
     editTodo: props => todo => {
-      const todosPath = getTodosPath(props);
+      const notification = new Notification("title", {
+        body: "body"
+      });
+      const todoPath = getTodoPath(props.userId, todo);
       const todoId = todo.id;
-      return props.firebase.set(`${ todosPath }/${ todoId }`, _.omit(todo, ['id']));
+      return props.firebase.set(`${ todoPath }/${ todoId }`, _.omit(todo, ['id']));
     },
     deleteTodo: props => todo => {
-      const todosPath = getTodosPath(props);
+      const todoPath = getTodoPath(props.userId, todo);
       const todoId = todo.id;
-      return props.firebase.remove(`${ todosPath }/${ todoId }`);
+      return props.firebase.remove(`${ todoPath }/${ todoId }`);
     },
   }),
   connect(mapStateToProps)

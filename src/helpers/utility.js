@@ -47,6 +47,13 @@ export function getTodosPath({ daysAgo, userId }) {
   return todosPath;
 }
 
+export function getTodoPath(userId, todo) {
+  const dateDaysAgo = new Date(todo.createTime);
+  const dateDaysAgoKey = `${dateDaysAgo.getFullYear()}-${dateDaysAgo.getMonth()}-${dateDaysAgo.getDate()}`;
+  const todoPath = `${userId}/todos/${dateDaysAgoKey}`;
+  return todoPath;
+}
+
 export function sortTodos(todos) {
   return todos
     .sort((a, b) => {
