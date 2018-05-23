@@ -5,7 +5,8 @@ import { getTimeLabel, getLabelRemainingTime, getStatus, todoStatus } from '../.
 import {
   EditableComponent,
 } from '../../components/';
-import Icon from '../../image/icons/lotus1.png';
+import lotusIcon from '../../image/icons/lotus1.png';
+import greenLotusIcon from '../../image/icons/green_lotus1.png';
 
 export default class SingleTodo extends Component {
   interval = null;
@@ -17,7 +18,7 @@ export default class SingleTodo extends Component {
     const { todo: todoText } = todo;
     const notification = new Notification('Task Completed', { 
       body: todoText,
-      icon: Icon,
+      icon: lotusIcon,
       requireInteraction: true
     }); 
     notification.onclick = () => { 
@@ -25,6 +26,20 @@ export default class SingleTodo extends Component {
       notification.close();
     }
   }
+
+  changeFavIcon(icon){
+    let link = document.querySelector("link[rel*='icon']");
+    if (link) {
+      document.getElementsByTagName('head')[0].removeChild(link);
+    }
+
+    link = document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = icon;
+    document.getElementsByTagName('head')[0].appendChild(link);
+  }
+
 
   componentDidMount = () =>{
     const time = 30 * 1000; //30 seconds
@@ -48,22 +63,7 @@ export default class SingleTodo extends Component {
     deleteTodo(todo);
   };
 
-  removeFavIcon(){
-    let link = document.querySelector("link[rel*='icon']");
-    if (link) {
-      document.getElementsByTagName('head')[0].removeChild(link);
-    }
-
-    link = document.createElement('link');
-    link.type = 'image/x-icon';
-    link.rel = 'shortcut icon';
-    link.href = '';
-    document.getElementsByTagName('head')[0].appendChild(link);
-  }
-
   playTodo = (todo) => {
-    // this.removeFavIcon();
-
     const { playSound, playInterval, setPlayInterval } = this.props;
     if (playInterval) {
       return alert(`There's another To-Do in progress`);
@@ -84,6 +84,7 @@ export default class SingleTodo extends Component {
     }, timeInterval);
     lastTimeStarted.push(new Date().getTime())
     this.updateTodo(todo, 'lastTimeStarted', lastTimeStarted);
+    this.changeFavIcon(greenLotusIcon);
     playSound(todoStatus.IN_PROGRESS);
     setPlayInterval(newPlayInterval);
     if(window.Notification && Notification.permission !== 'denied') {
@@ -99,12 +100,7 @@ export default class SingleTodo extends Component {
     lastTimeStopped.push(new Date().getTime());
     //TODO: we could update the remaining milliseconds here
     this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
-
-    // var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    // link.type = 'image/x-icon';
-    // link.rel = 'shortcut icon';
-    // link.href = Icon;
-    // document.getElementsByTagName('head')[0].appendChild(link);
+    this.changeFavIcon(lotusIcon);
   }
 
   resetTodo(todo) {
@@ -119,7 +115,7 @@ export default class SingleTodo extends Component {
     this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
     new Notification('Task Completed', { 
       body: todoText,
-      icon: Icon,
+      icon: lotusIcon,
     }); 
   }
 
