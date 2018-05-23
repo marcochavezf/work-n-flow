@@ -108,9 +108,6 @@ export default compose(
       });
     },
     editTodo: props => todo => {
-      const notification = new Notification("title", {
-        body: "body"
-      });
       const todoPath = getTodoPath(props.userId, todo);
       const todoId = todo.id;
       return props.firebase.set(`${ todoPath }/${ todoId }`, _.omit(todo, ['id']));

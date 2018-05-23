@@ -5,9 +5,26 @@ import { getTimeLabel, getLabelRemainingTime, getStatus, todoStatus } from '../.
 import {
   EditableComponent,
 } from '../../components/';
+import Icon from '../../image/icons/lotus1.png';
 
 export default class SingleTodo extends Component {
   interval = null;
+
+  showCompletedTaskNotification(todo){
+    if (window.Notification && Notification.permission === 'denied') {
+      return;
+    }
+    const { todo: todoText } = todo;
+    const notification = new Notification('Task Completed', { 
+      body: todoText,
+      icon: Icon,
+      requireInteraction: true
+    }); 
+    notification.onclick = () => { 
+      window.focus();
+      notification.close();
+    }
+  }
 
   componentDidMount = () =>{
     const time = 30 * 1000; //30 seconds
@@ -31,7 +48,22 @@ export default class SingleTodo extends Component {
     deleteTodo(todo);
   };
 
+  removeFavIcon(){
+    let link = document.querySelector("link[rel*='icon']");
+    if (link) {
+      document.getElementsByTagName('head')[0].removeChild(link);
+    }
+
+    link = document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = '';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  }
+
   playTodo = (todo) => {
+    // this.removeFavIcon();
+
     const { playSound, playInterval, setPlayInterval } = this.props;
     if (playInterval) {
       return alert(`There's another To-Do in progress`);
@@ -45,6 +77,7 @@ export default class SingleTodo extends Component {
       if (newRemainingTime <= 0) {
         newRemainingTime = 0;
         this.pauseTodo(todo);
+        this.showCompletedTaskNotification(todo);
         playSound(todoStatus.COMPLETED);
       }
       this.updateTodo(todo, 'remainingTime', newRemainingTime);
@@ -53,6 +86,9 @@ export default class SingleTodo extends Component {
     this.updateTodo(todo, 'lastTimeStarted', lastTimeStarted);
     playSound(todoStatus.IN_PROGRESS);
     setPlayInterval(newPlayInterval);
+    if(window.Notification && Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
   }
 
   pauseTodo = (todo) => {
@@ -63,6 +99,12 @@ export default class SingleTodo extends Component {
     lastTimeStopped.push(new Date().getTime());
     //TODO: we could update the remaining milliseconds here
     this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
+
+    // var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    // link.type = 'image/x-icon';
+    // link.rel = 'shortcut icon';
+    // link.href = Icon;
+    // document.getElementsByTagName('head')[0].appendChild(link);
   }
 
   resetTodo(todo) {
@@ -71,10 +113,14 @@ export default class SingleTodo extends Component {
   }
 
   completeTodo(todo) {
-    const { lastTimeStopped } = todo;
+    const { lastTimeStopped, todo: todoText } = todo;
     lastTimeStopped.push(new Date().getTime());
     this.updateTodo(todo, 'remainingTime', 0);
     this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
+    new Notification('Task Completed', { 
+      body: todoText,
+      icon: Icon,
+    }); 
   }
 
   setLastTimeStopped(todo) {
