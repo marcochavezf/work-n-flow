@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 
 const defaultTitle = 'Work & Flow';
 const soundUrls = {};
+let lastTimeActive = null;
 soundUrls[todoStatus.COMPLETED] = 'sounds/a-tone.mp3';
 soundUrls[todoStatus.IN_PROGRESS] = 'sounds/a-tone.mp3';
 // soundUrls[todoStatus.PENDING] = 'sounds/electronic-chime.mp3';
@@ -31,6 +32,19 @@ class ToDo extends Component {
   }
   playSound = (soundToPlay) => {
     this.setState({ soundToPlay });
+  }
+  componentDidMount(){
+    //update component if it has been inactive for long time
+    window.addEventListener('focus', ()=>{
+      const timeNow = new Date();
+      if (lastTimeActive) {
+        const limitTime = 3 * 60 * 60 * 1000; //3 hours
+        if (timeNow - lastTimeActive > limitTime) {
+          this.forceUpdate();
+        }
+      }
+      lastTimeActive = new Date();
+    });
   }
   render() {
     const {
