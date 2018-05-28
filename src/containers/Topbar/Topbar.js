@@ -3,19 +3,10 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import appActions from '../../redux/app/actions';
 import TopbarWrapper from './topbar.style';
+import Ionicon from 'react-ionicons'
 import {
-  TopbarMail,
-  TopbarNotification,
-  TopbarMessage,
-  TopbarSearch,
   TopbarUser,
-  TopbarAddtoCart
 } from '../../components/topbar';
-
-import Box from '../../components/utility/box';
-import ContentHolder from '../../components/utility/contentHolder';
-import IntlMessages from '../../components/utility/intlMessages';
-import Pagination from '../../components/uielements/pagination';
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
@@ -39,10 +30,12 @@ class Topbar extends Component {
           }
         >
           <div className="isoLeft">
-            <button
+            <Ionicon 
               className={
                 collapsed ? 'triggerBtn menuCollapsed' : 'triggerBtn menuOpen'
               }
+              icon="md-menu" 
+              fontSize="30px"
               style={{ color: customizedTheme.textColor }}
               onClick={toggleCollapsed}
             />

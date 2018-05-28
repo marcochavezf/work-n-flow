@@ -55,10 +55,11 @@ const TopbarWrapper = styled.div`
         position: relative;
         cursor: pointer;
 
+        
         &:before {
-          content: '\f20e';
+          /* content: '\f20e';
           font-family: 'Ionicons';
-          font-size: 26px;
+          font-size: 26px; */
           color: inherit;
           line-height: 0;
           position: absolute;
