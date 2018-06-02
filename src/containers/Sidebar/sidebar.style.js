@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import { transition, borderRadius } from '../../config/style-util';
 import WithDirection from '../../config/withDirection';
+import lotusSvg from '../../image/icons/lotus1.svg';
 
 const SidebarWrapper = styled.div`
   .isomorphicSidebar {
@@ -106,6 +107,28 @@ const SidebarWrapper = styled.div`
         color: inherit;
         font-weight: 400;
         ${transition()};
+      }
+
+      .title-todo-sidebar {
+        margin-left: 30px;
+        margin-top: 10px;    
+        margin-bottom: 5px;  
+      }
+
+      .lotus {
+        display: block;
+        text-indent: -9999px;
+        width: 100px;
+        height: 82px;
+        background: url(${ lotusSvg });
+        background-size: 100px 82px;
+      }
+
+      .row-todos {
+        margin-left: 25px; 
+        overflow: auto; 
+        height: 45px;
+        margin-bottom: 0px;
       }
 
       .ant-menu-item-selected {

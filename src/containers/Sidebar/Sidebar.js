@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import * as _ from 'lodash';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { isLoaded, firebaseConnect } from 'react-redux-firebase';
 import clone from 'clone';
 // import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
@@ -12,6 +15,9 @@ import SidebarWrapper from './sidebar.style';
 import appActions from '../../redux/app/actions';
 import Logo from '../../components/utility/logo';
 import { rtl } from '../../config/withDirection';
+import { getTodosPath, getStatus, todoStatus } from '../../helpers/utility';
+import lotusDisabled from '../../image/icons/lotus_disabled.png';
+import lotusEnabled from '../../image/icons/lotus_enabled.png';
 
 // const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
@@ -79,10 +85,10 @@ class Sidebar extends Component {
       <div className="box" style={{ ...style, ...viewStyle }} {...props} />
     );
   }
-  
+
   render() {
     // const { url, app, toggleOpenDrawer, bgcolor } = this.props;
-    const { app, toggleOpenDrawer, customizedTheme } = this.props;
+    const { app, toggleOpenDrawer, customizedTheme, totalCompletedTodos, isLoading } = this.props;
     const url = stripTrailingSlash(this.props.url);
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
@@ -110,6 +116,14 @@ class Sidebar extends Component {
     const submenuColor = {
       color: customizedTheme.textColor
     };
+    const iconsPerRow = 4;
+    const limitRows = 2;
+    const numberOfRows = totalCompletedTodos <= (iconsPerRow * limitRows) ? limitRows : Math.ceil(totalCompletedTodos / iconsPerRow);
+    const arrayNumberRows = Array.from(Array(numberOfRows).keys());
+    const arrayIconsRow = Array.from(Array(iconsPerRow).keys());
+    const arrayIconsRemaining = Array.from(Array(totalCompletedTodos % iconsPerRow).keys());
+    const getIcon = (rowIndex, i) => (rowIndex * iconsPerRow + i + 1) <= totalCompletedTodos ? lotusEnabled : lotusDisabled;
+    const getArrayIcons = (rowIndex) => (rowIndex + 1) > limitRows ? arrayIconsRemaining : arrayIconsRow;
     return (
       <SidebarWrapper>
         <Sider
@@ -127,7 +141,7 @@ class Sidebar extends Component {
             renderView={this.renderView}
             style={{ height: scrollheight - 70 }}
           >
-            <Menu
+            {/* <Menu
               onClick={this.handleClick}
               theme="dark"
               mode={mode}
@@ -136,7 +150,6 @@ class Sidebar extends Component {
               onOpenChange={this.onOpenChange}
               className="isoDashboardMenu"
             >
-              {/*
               <Menu.Item key="todo">
                 <Link to={`${url}/todo`}>
                   <span className="isoMenuHolder" style={submenuColor}>
@@ -147,10 +160,45 @@ class Sidebar extends Component {
                   </span>
                 </Link>
               </Menu.Item>
-              */}
+              getDevSidebar(url, submenuColor)
+            </Menu> */}
+            <div className="isoDashboardMenu">
+            <span className="isoMenuHolder" style={submenuColor}>
+              <span className="nav-text title-todo-sidebar">
+                Todos
+                </span>
+            </span>
+            {
+              !collapsed ?
+              <div>
+                  { 
+                    arrayNumberRows.map(rowIndex => 
+                      <div key={rowIndex} className="row-todos">
+                        {
+                          getArrayIcons(rowIndex).map(i => <img key={i} width="45px" src={getIcon(rowIndex, i)} alt="icon" />)
+                        }
+                      </div>
+                    )
+                  }
+                  {/* <div className="row-todos">
+                    {
+                      [1, 2, 3, 4].map(i => <img key={i} width="45px" src={lotusEnabled} alt="icon" />)
+                    }
+                  </div>
+                  <div className="row-todos">
+                    {
+                      [1, 2, 3, 4].map(i => <img key={i} width="45px" src={lotusDisabled} alt="icon" />)
+                    }
+                  </div> */}
+                  {/* <div className="row-todos">
+                      {
+                        [1,2,3,4].map(i => <img key={i} width="45px" src={lotusImg} alt="icon" />)
+                      }
+                    </div> */}
+                </div> : ''
+            }
+            </div>
 
-              {/*getDevSidebar(url, submenuColor) */}
-            </Menu>
           </Scrollbars>
         </Sider>
       </SidebarWrapper>
@@ -158,10 +206,32 @@ class Sidebar extends Component {
   }
 }
 
-export default connect(
-  state => ({
+function mapStateToProps(state, ownProps) {
+  const todosPath = getTodosPath(ownProps);
+  const [userId, todosKey, daysAgoKey] = todosPath.split('/');
+  const userData = state.firebase.data[userId];
+  const todos = _.has(userData, todosKey) ? userData[todosKey][daysAgoKey] : {};
+  return {
     app: state.App.toJS(),
-    customizedTheme: state.ThemeSwitcher.toJS().sidebarTheme
+    isLoading: !isLoaded(todos) || !_.has(userData, todosKey),
+    customizedTheme: state.ThemeSwitcher.toJS().sidebarTheme,
+    totalCompletedTodos: _.filter(todos, todo => getStatus(todo) === todoStatus.COMPLETED).length,
+  };
+}
+
+export default compose(
+  firebaseConnect((props, store) => {
+    const todosPath = getTodosPath(props);
+    return [
+      {
+        path: todosPath, queryParams: [
+          // 'orderByKey'
+        ]
+      }
+    ]
   }),
-  { toggleOpenDrawer, changeOpenKeys, changeCurrent, toggleCollapsed }
-)(Sidebar);
+  connect(
+    mapStateToProps,
+    { toggleOpenDrawer, changeOpenKeys, changeCurrent, toggleCollapsed }
+  )
+)(Sidebar)

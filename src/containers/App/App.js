@@ -9,7 +9,7 @@ import authAction from '../../redux/auth/actions';
 import appActions from '../../redux/app/actions';
 import Sidebar from '../Sidebar/Sidebar';
 import Topbar from '../Topbar/Topbar';
-import ThemeSwitcher from '../../containers/ThemeSwitcher';
+// import ThemeSwitcher from '../../containers/ThemeSwitcher';
 import AppRouter from './AppRouter';
 import { siteConfig } from '../../config.js';
 import { AppLocale } from '../../index';
@@ -23,7 +23,7 @@ const { toggleAll } = appActions;
 export class App extends Component {
   render() {
     const { url } = this.props.match;
-    const { locale, selectedTheme } = this.props;
+    const { locale, selectedTheme, daysAgo, userId } = this.props;
     const currentAppLocale = AppLocale[locale];
     return (
       <LocaleProvider locale={currentAppLocale.antd}>
@@ -45,7 +45,7 @@ export class App extends Component {
                 </Debounce>
                 <Topbar url={url} />
                 <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
-                  <Sidebar url={url} />
+                  <Sidebar url={url} daysAgo={daysAgo} userId={userId} />
                   <Layout
                     className="isoContentMainLayout"
                     style={{
@@ -85,7 +85,8 @@ export class App extends Component {
 
 export default connect(
   state => ({
-    auth: state.Auth,
+    daysAgo: state.Todos.toJS().daysAgo,
+    userId: state.Auth.toJS().uid,
     locale: state.LanguageSwitcher.toJS().language.locale,
     selectedTheme: state.ThemeSwitcher.toJS().changeThemes.themeName
   }),

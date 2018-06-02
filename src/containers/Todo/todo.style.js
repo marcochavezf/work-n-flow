@@ -73,6 +73,7 @@ const WDTodoWrapper = styled.div`
     .todoPagination {
       margin-top: -30px;
       margin-bottom: 20px;
+      margin-left: -10px;
     }
 
     .paginationButton,
