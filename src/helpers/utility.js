@@ -120,7 +120,8 @@ export function getTimeLabel(todo){
 export function getStatus(todo) {
   let status = todoStatus.COMPLETED;
   if (todo.remainingTime > 0) {
-    if (todo.lastTimeStarted.length > todo.lastTimeStopped.length) {
+    const { lastTimeStarted = [], lastTimeStopped = [] } = todo;
+    if (lastTimeStarted.length > lastTimeStopped.length) {
       status = todoStatus.IN_PROGRESS;
     } else {
       status = todoStatus.PENDING;

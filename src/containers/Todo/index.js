@@ -6,7 +6,8 @@ import Sound from 'react-sound';
 import todoAction from '../../redux/todos/actions.js';
 import { todoStatus } from '../../helpers/utility';
 import { TodoWrapper } from './todo.style';
-import TodoContent from './todoContent';
+// import TodoContent from './todoContent';
+import Async from '../../helpers/asyncComponent';
 import * as _ from 'lodash';
 
 const defaultTitle = 'Work & Flow';
@@ -62,10 +63,15 @@ class ToDo extends Component {
           { soundUrl ? 
             <Sound
               url={soundUrl}
+              volume={70}
               playStatus={Sound.status.PLAYING}
               onFinishedPlaying={() => this.playSound()}
             /> : <div></div> }
-          <TodoContent
+            <Async
+              load={import(/* webpackChunkName: "compose-mAIL--editor" */ './todoContent')}
+              componentProps={Object.assign({}, this.props, this)}
+            />
+          {/* <TodoContent
             userId={userId}
             colors={colors}
             daysAgo={daysAgo}
@@ -73,7 +79,7 @@ class ToDo extends Component {
             changeTitle={this.changeTitle}
             updateDaysAgo={updateDaysAgo}
             registerLayoutOnClick={this.registerLayoutOnClick}
-          />
+          /> */}
         </TodoWrapper>
       </Layout>
     );

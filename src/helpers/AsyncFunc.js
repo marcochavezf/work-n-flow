@@ -13,6 +13,7 @@ export default function asyncComponent(importComponent) {
       };
     }
     componentWillMount() {
+      Nprogress.configure({ minimum: 0.3 });
       Nprogress.start();
     }
     componentWillUnmount() {
@@ -32,7 +33,7 @@ export default function asyncComponent(importComponent) {
     render() {
       const Component = this.state.component || <div />;
       return (
-        <ReactPlaceholder type="text" rows={7} ready={Component !== null}>
+        <ReactPlaceholder type="text" showLoadingAnimation={true} rows={3} ready={Component !== null}>
           {Component}
         </ReactPlaceholder>
       );

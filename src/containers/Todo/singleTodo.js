@@ -125,8 +125,8 @@ export default class SingleTodo extends Component {
       const lastTimeStartedDate = new Date(_.last(lastTimeStarted));
       const newLastStoppedTime = new Date(lastTimeStartedDate.getTime() + remainingTime);
       lastTimeStopped.push(newLastStoppedTime.getTime());
+      this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
     }
-    return todo;
   }
 
   render() {

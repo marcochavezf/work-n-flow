@@ -112,10 +112,6 @@ export default class TodoList extends Component {
 }
 
 class ScrollToBottomTodoListComponent extends Component {
-  componentDidMount() {
-    this.scrollToBottom();
-  }
-
   componentDidUpdate() {
     const { totalTodos, daysAgo } = this.props;
     //scroll to the bottom only when a new task is added

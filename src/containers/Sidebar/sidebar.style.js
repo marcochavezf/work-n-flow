@@ -126,7 +126,8 @@ const SidebarWrapper = styled.div`
 
       .row-todos {
         margin-left: 25px; 
-        overflow: auto; 
+        overflow-x: auto; 
+        overflow-y: hidden;
         height: 45px;
         margin-bottom: 0px;
       }

@@ -28,7 +28,7 @@ class AsyncComponent extends Component {
   }
 
   render() {
-    const Component = this.state.Component || <div />;
+    const Component = this.state.Component;
     try {
       if (this.mounted) {
         return (

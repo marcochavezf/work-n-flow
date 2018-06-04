@@ -7,7 +7,7 @@ const WDTodoWrapper = styled.div`
   padding: 50px 35px;
 
   @media only screen and (max-width: 767px) {
-    padding: 30px 20px;
+    padding: 50px 20px;
   }
   @media only screen and (min-width: 767px) and (max-width: 990px) {
     padding: 40px 20px;
@@ -336,9 +336,15 @@ const WDTodoListWrapper = styled.div`
 
       .isoNoteEditIcon {
         position: absolute;
-        top: 0;
-        right: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
-        left: ${props => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
+        top: -7px;
+        right: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '-3px')};
+        left: ${props => (props['data-rtl'] === 'rtl' ? '-3px' : 'inherit')};
+      }
+      
+      .isoTodoDelete {
+        top: -7px;
+        right: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '-3px')};
+        left: ${props => (props['data-rtl'] === 'rtl' ? '-3px' : 'inherit')};
       }
 
       .isoPlayIcon {
