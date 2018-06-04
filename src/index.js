@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { LocaleProvider } from 'antd';
 import { IntlProvider } from 'react-intl';
+import ReactGA from 'react-ga';
 import registerServiceWorker from './registerServiceWorker';
 import themes from './config/themes';
 import DashApp from './dashApp';
@@ -40,4 +41,5 @@ if (module.hot) {
   });
 }
 registerServiceWorker();
+ReactGA.initialize('UA-120299016-1');
 export { AppLocale };

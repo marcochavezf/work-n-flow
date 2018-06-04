@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Layout } from 'antd';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
+import ReactGA from 'react-ga';
 import { isLoaded, firebaseConnect } from 'react-redux-firebase';
 import { getTodosPath, getTodoPath } from '../../helpers/utility';
 import Input from '../../components/uielements/input';
@@ -98,6 +99,10 @@ export default compose(
   ]}),
   withHandlers({
     addTodo: props => todo => {
+      ReactGA.event({
+        category: 'Todo',
+        action: 'Add Todo',
+      });
       const todosPath = getTodosPath(props);
       return props.firebase.push(todosPath, {
         todo: todo,

@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import Sound from 'react-sound';
+import ReactGA from 'react-ga';
 import todoAction from '../../redux/todos/actions.js';
 import { todoStatus } from '../../helpers/utility';
 import { TodoWrapper } from './todo.style';
@@ -48,12 +49,6 @@ class ToDo extends Component {
     });
   }
   render() {
-    const {
-      colors,
-      updateDaysAgo,
-      daysAgo,
-      userId,
-    } = this.props;
     const { title, soundToPlay } = this.state;
     const soundUrl = soundUrls[soundToPlay];
     document.title = title;
@@ -63,12 +58,12 @@ class ToDo extends Component {
           { soundUrl ? 
             <Sound
               url={soundUrl}
-              volume={70}
+              volume={50}
               playStatus={Sound.status.PLAYING}
               onFinishedPlaying={() => this.playSound()}
             /> : <div></div> }
             <Async
-              load={import(/* webpackChunkName: "compose-mAIL--editor" */ './todoContent')}
+              load={import(/* webpackChunkName: "todo-content" */ './todoContent')}
               componentProps={Object.assign({}, this.props, this)}
             />
           {/* <TodoContent
@@ -89,6 +84,7 @@ class ToDo extends Component {
 function mapStateToProps(state) {
   const { colors, daysAgo } = state.Todos.toJS();
   const { uid: userId } = state.Auth.toJS();
+  ReactGA.set({ userId: userId });
   return {
     colors,
     daysAgo,

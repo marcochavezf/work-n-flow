@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as _ from 'lodash';
+import ReactGA from 'react-ga';
 import Button from '../../components/uielements/button';
 import { getTimeLabel, getLabelRemainingTime, getStatus, todoStatus } from '../../helpers/utility';
 import {
@@ -61,6 +62,10 @@ export default class SingleTodo extends Component {
       return alert(`There's a To-Do in progress`);
     }
     deleteTodo(todo);
+    ReactGA.event({
+      category: 'Todo',
+      action: 'Delete Todo',
+    });
   };
 
   playTodo = (todo) => {
@@ -90,6 +95,10 @@ export default class SingleTodo extends Component {
     if(window.Notification && Notification.permission !== 'denied') {
       Notification.requestPermission();
     }
+    ReactGA.event({
+      category: 'Todo',
+      action: 'Play Todo',
+    });
   }
 
   pauseTodo = (todo) => {
@@ -101,6 +110,10 @@ export default class SingleTodo extends Component {
     //TODO: we could update the remaining milliseconds here
     this.updateTodo(todo, 'lastTimeStopped', lastTimeStopped);
     this.changeFavIcon(lotusIcon);
+    ReactGA.event({
+      category: 'Todo',
+      action: 'Pause Todo',
+    });
   }
 
   resetTodo(todo) {
@@ -117,6 +130,10 @@ export default class SingleTodo extends Component {
       body: todoText,
       icon: lotusIcon,
     }); 
+    ReactGA.event({
+      category: 'Todo',
+      action: 'Complete Todo',
+    });
   }
 
   setLastTimeStopped(todo) {

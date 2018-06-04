@@ -6974,6 +6974,13 @@ react-flip-move@^2.9.2:
   version "2.9.17"
   resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-2.9.17.tgz#849dc41f614a3d26dc229f4c930a0fb3a8f39441"
 
+react-ga@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.3.tgz#0f447c73664c069a5fc341f6f431262e3d4c23c4"
+  optionalDependencies:
+    prop-types "^15.6.0"
+    react "^15.6.2 || ^16.0"
+
 react-google-charts@^1.5.4-alpha.1:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-1.5.5.tgz#ffeaeca752a820a05029bd6a23516be2432d7df5"
@@ -7381,6 +7388,15 @@ react@^15.0.2, react@^15.3.2, react@^15.4.1, react@^15.6.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+"react@^15.6.2 || ^16.0":
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
