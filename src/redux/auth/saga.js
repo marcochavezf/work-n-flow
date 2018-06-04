@@ -8,7 +8,7 @@ export function* loginRequest() {
   yield takeEvery('LOGIN_REQUEST', function*({ provider, email, password }) {
     try {
       const { token, profile, uid } = yield FirebaseHelper.login(provider, { email, password });
-      console.log(token, profile, uid);
+      // console.log(token, profile, uid);
       yield put({
         type: actions.LOGIN_SUCCESS,
         uid,
@@ -16,7 +16,6 @@ export function* loginRequest() {
         profile,
       });
     } catch (error) {
-      console.log(error)
       yield put({ type: actions.LOGIN_ERROR, error });
     }
   });

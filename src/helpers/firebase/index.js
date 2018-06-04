@@ -64,7 +64,7 @@ class FirebaseHelper {
 
   async getAuthData(provider, providerType){
     const result = await firebaseAuth().signInWithPopup(provider);
-    console.log('result', result);
+    // console.log('result', result);
     let profile = null;
     const token = result.credential.accessToken;
     const { uid } = result.user;
