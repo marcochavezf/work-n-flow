@@ -58,7 +58,7 @@ class ToDo extends Component {
           { soundUrl ? 
             <Sound
               url={soundUrl}
-              volume={50}
+              volume={75}
               playStatus={Sound.status.PLAYING}
               onFinishedPlaying={() => this.playSound()}
             /> : <div></div> }
