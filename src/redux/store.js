@@ -8,11 +8,20 @@ import reducers from '../redux/reducers';
 import rootSaga from '../redux/sagas';
 import { firebaseConfig } from '../config.js';
 import FirebaseHelper from '../helpers/firebase';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 const middlewares = [thunk, sagaMiddleware, routeMiddleware];
+
+const shouldBeReduxDevTools = process.env.NODE_ENV !== "production" ? (
+  
+  composeWithDevTools(
+  applyMiddleware(...middlewares))) : (
+
+    applyMiddleware(...middlewares)
+  )
 
 const store = createStore(
   combineReducers({
@@ -27,7 +36,7 @@ const store = createStore(
         userProfile: 'users',
         enableLogging: false
       }),
-    applyMiddleware(...middlewares)
+      shouldBeReduxDevTools
   )
 );
 sagaMiddleware.run(rootSaga);

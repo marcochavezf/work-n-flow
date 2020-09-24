@@ -379,6 +379,28 @@ const WDTodoListWrapper = styled.div`
       text-align: center;
       margin: 50px 0;
     }
+
+    .isoTimeBetweenTodoContainer {
+      width: 20%;
+      display: flex;
+      flex-flow: column;
+      margin-bottom: 20px;
+
+      .isoLinesIcon {
+        width: 20px;
+        align-self: center;
+      }
+
+      .rotate {
+        transform: rotateX(180deg);
+      }
+
+      .isoBetweenTodoMessage {
+        align-self: center;
+        padding: 10px 0;
+      }
+
+    }
   }
 
   .isoTodoFooter {
