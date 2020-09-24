@@ -15,6 +15,14 @@ const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 const middlewares = [thunk, sagaMiddleware, routeMiddleware];
 
+const shouldBeReduxDevTools = process.env.NODE_ENV !== "production" ? (
+  
+  composeWithDevTools(
+  applyMiddleware(...middlewares))) : (
+
+    applyMiddleware(...middlewares)
+  )
+
 const store = createStore(
   combineReducers({
     ...reducers,
@@ -28,10 +36,7 @@ const store = createStore(
         userProfile: 'users',
         enableLogging: false
       }),
-    composeWithDevTools(
-        applyMiddleware(...middlewares)
-      )
-    
+      shouldBeReduxDevTools
   )
 );
 sagaMiddleware.run(rootSaga);
