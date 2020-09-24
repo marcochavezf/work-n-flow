@@ -7,6 +7,7 @@ export const todoStatus = {
   COMPLETED: 'completed',
   IN_PROGRESS: 'in-progress',
   PENDING: 'pending',
+  UNCOMPLETED: 'uncompleted'
 }
 
 export function clearToken() {
@@ -77,6 +78,27 @@ export function sortTodos(todos) {
         return -1;
       }
     });
+}
+
+export function getTimeCompleted(todo) {
+
+  const status = getStatus(todo);
+
+  switch (status) {
+
+    case todoStatus.COMPLETED:
+      return _.last(todo.lastTimeStopped);
+
+    case todoStatus.IN_PROGRESS:
+    case todoStatus.PENDING:
+      return todoStatus.UNCOMPLETED
+    default:
+      break;
+  }
+}
+
+export function getFirstTimeStarted(todo) {
+  return _.first(todo.lastTimeStarted)
 }
 
 export function getTimeLabel(todo){
