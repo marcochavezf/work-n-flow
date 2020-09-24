@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as _ from 'lodash';
 import { getStatus, sortTodos, todoStatus } from '../../helpers/utility';
 import SingleTodo from './singleTodo';
+import TimeBetweenTodos from './timeBetweenTodos';
 import { TodoListWrapper } from './todo.style';
 
 export default class TodoList extends Component {
@@ -71,7 +72,14 @@ export default class TodoList extends Component {
         <div className="isoTodoListWrapper">
           { isLoading ? <h3 className="isoNoTodoFound">Loading...</h3>
             // : sortedTodos.length > 0 ? sortedTodos.map(todo => this.singleTodo(todo))
-            : sortedTodos.length > 0 ? sortedTodos.map(todo => <SingleTodo key={todo.id} todo={todo} {...this.props} playInterval={playInterval} setPlayInterval={this.setPlayInterval} />)
+            : sortedTodos.length > 0 ? sortedTodos.map((todo, index, todos) => 
+          
+                  <div key={todo.id}>
+                    <SingleTodo key={todo.id}  todo={todo} {...this.props} playInterval={playInterval} setPlayInterval={this.setPlayInterval} />
+
+                    <TimeBetweenTodos todos={todos} index={index} todo={todo} />
+                  </div>
+                 )
             : daysAgo === 0 ? <h3 className="isoNoTodoFound">Add a new task</h3>
             : <h3 className="isoNoTodoFound">No tasks to display</h3> }
         </div>
