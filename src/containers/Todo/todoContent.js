@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 import { isLoaded, firebaseConnect } from 'react-redux-firebase';
 import { getTodosPath, getTodoPath } from '../../helpers/utility';
 import Input from '../../components/uielements/input';
-import TodoList from './todoList';
+import TodoList from './todoList.tsx';
 import TodoPaginator from './todoPaginator';
 const { Header, Content } = Layout;
 

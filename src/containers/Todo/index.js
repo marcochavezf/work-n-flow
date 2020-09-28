@@ -6,7 +6,7 @@ import Sound from 'react-sound';
 import ReactGA from 'react-ga';
 import todoAction from '../../redux/todos/actions.js';
 import { todoStatus } from '../../helpers/utility';
-import { TodoWrapper } from './todo.style';
+import { TodoWrapper } from './todo.style.js';
 // import TodoContent from './todoContent';
 import Async from '../../helpers/asyncComponent';
 import * as _ from 'lodash';

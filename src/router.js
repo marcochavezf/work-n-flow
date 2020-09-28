@@ -7,7 +7,7 @@ import App from './containers/App/App';
 import asyncComponent from './helpers/AsyncFunc';
 import Auth0 from './helpers/auth0';
 
-const RestrictedRoute = ({ component: Component, ...rest, isLoggedIn }) =>
+const RestrictedRoute = ({ component: Component,  isLoggedIn, ...rest }) =>
   <Route
     {...rest}
     render={props =>

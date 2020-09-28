@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import * as _ from 'lodash';
-import { getStatus, sortTodos, todoStatus } from '../../helpers/utility';
+import { getStatus, sortTodos, todoStatus } from '../../helpers/utility.js';
 import SingleTodo from './singleTodo';
 import TimeBetweenTodos from './timeBetweenTodos';
-import { TodoListWrapper } from './todo.style';
+import { TodoListWrapper } from './todo.style.js';
 
-export default class TodoList extends Component {
+interface TodoListProps {
+  todos: any;
+  isLoading: boolean;
+  daysAgo: any;
+  changeTitle: any;
+}
+
+export default class TodoList extends Component<TodoListProps> {
   state = {
     search: 'All',
     playCompletedSound: false,
-    playInterval:null,
+    playInterval: undefined,
   }
   
   componentWillUnmount = () =>{
@@ -119,7 +126,15 @@ export default class TodoList extends Component {
   }
 }
 
-class ScrollToBottomTodoListComponent extends Component {
+interface STBTLIProps {
+  totalTodos: number;
+  daysAgo: number;
+}
+
+class ScrollToBottomTodoListComponent extends Component<STBTLIProps> {
+
+  prevTotalTodos : number = 0
+  el: HTMLDivElement | null = null
   componentDidUpdate() {
     const { totalTodos, daysAgo } = this.props;
     //scroll to the bottom only when a new task is added
@@ -130,7 +145,9 @@ class ScrollToBottomTodoListComponent extends Component {
   }
 
   scrollToBottom() {
-    this.el.scrollIntoView({ behaviour: 'smooth' });
+    if(this.el){
+      this.el.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   render() {

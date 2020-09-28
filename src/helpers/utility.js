@@ -7,7 +7,7 @@ export const todoStatus = {
   COMPLETED: 'completed',
   IN_PROGRESS: 'in-progress',
   PENDING: 'pending',
-  UNCOMPLETED: 'uncompleted'
+  UNCOMPLETED: 0
 }
 
 export function clearToken() {

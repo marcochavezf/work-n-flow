@@ -1,13 +1,18 @@
 import React from 'react'
 //icons
 import  Lines  from '../../image/icons/alineacion-centrada.svg'
-
-import { todoStatus, getTimeCompleted, getFirstTimeStarted } from '../../helpers/utility';
+import { todoStatus, getTimeCompleted, getFirstTimeStarted } from 'helpers/utility';
 //dayjs 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; 
 
-function timeBetweenTodos({todos, index, todo}) {
+interface Props {
+  todos: any[];
+  index: number;
+  todo: any;
+}
+
+function timeBetweenTodos({todos, index, todo} : Props) {
 
   //extends dayjs plugin
   dayjs.extend(relativeTime);
@@ -19,6 +24,7 @@ function timeBetweenTodos({todos, index, todo}) {
   
   const isTodoCompleted = todoTimeCompleted !== todoStatus.UNCOMPLETED
 
+  // Shows time only if nextTodo exits AND Todo has been completed AND next Todo has been started
   if(!isLastTodo && isTodoCompleted && nextTodoFirstStart) {
 
     return (

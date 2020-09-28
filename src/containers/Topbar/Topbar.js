@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import appActions from '../../redux/app/actions';
-import TopbarWrapper from './topbar.style';
+import TopbarWrapper from './topbar.style.js';
 import Ionicon from 'react-ionicons'
 import {
   TopbarUser,
