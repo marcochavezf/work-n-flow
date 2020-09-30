@@ -1,6 +1,5 @@
 import React from 'react'
 //icons
-import  Lines  from '../../image/icons/alineacion-centrada.svg'
 import { todoStatus, getTimeCompleted, getFirstTimeStarted } from 'helpers/utility';
 //dayjs 
 import dayjs from 'dayjs';
@@ -29,11 +28,11 @@ function timeBetweenTodos({todos, index, todo} : Props) {
 
     return (
       <div className='isoTimeBetweenTodoContainer'>
-        <img src={Lines} className='isoLinesIcon' alt='Lines Icon' />
+        
         <p className='isoBetweenTodoMessage'>
-           { dayjs(nextTodoFirstStart).from(todoTimeCompleted, true) } has passed between these Tasks 
+          - { dayjs(nextTodoFirstStart).from(todoTimeCompleted, true) } has passed between these tasks -
         </p>
-        <img src={Lines} className='isoLinesIcon rotate' alt='Lines Icon' />
+        
       </div>
     )
   } else {
