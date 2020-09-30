@@ -381,19 +381,11 @@ const WDTodoListWrapper = styled.div`
     }
 
     .isoTimeBetweenTodoContainer {
-      width: 20%;
+      
       display: flex;
       flex-flow: column;
       margin-bottom: 20px;
       padding-left: 20px;
-
-      @media only screen and (max-width: 767px) {
-        width: 90%;
-      }
-
-      @media only screen and (min-width: 767px) and (max-width: 1050px) {
-        width: 60%;
-      }
 
       .isoBetweenTodoMessage {
         
