@@ -388,7 +388,7 @@ const WDTodoListWrapper = styled.div`
       padding-left: 20px;
 
       .isoBetweenTodoMessage {
-        
+        color: #a9a9a9;
         padding: 0;
       }
     }
