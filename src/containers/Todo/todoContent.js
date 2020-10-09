@@ -12,9 +12,24 @@ import TodoPaginator from './todoPaginator';
 const { Header, Content } = Layout;
 
 class TodoContent extends Component {
+  constructor(props){
+    super(props)
+    this.inputRef = React.createRef();
+  }
   state = {
     newTodo: ''
   }
+
+  /*getInputRef(element){
+    this.inputRef = element
+  }*/
+
+  getOffSet() {
+    const inputOffSetTop = this.inputRef.current.offsetTop;
+    
+    return inputOffSetTop
+  }
+  
   render() {
     const {
       todos,
@@ -30,7 +45,11 @@ class TodoContent extends Component {
       playSound,
       changeTitle,
       registerLayoutOnClick,
+      app
     } = this.props;
+    
+    const lastTodo = todos[todos.length - 1]
+    const isMobile = app.view === 'MobileView';
     return (
       <div>
         <Content className="isoTodoContentBody">
@@ -54,6 +73,7 @@ class TodoContent extends Component {
         </Content>
         <Header className="isoTodoHeader">
           {daysAgo === 0 && !isLoading ?
+          <div>
             <Input
               placeholder={'Type here for add a new todo'}
               value={this.state.newTodo}
@@ -63,7 +83,18 @@ class TodoContent extends Component {
                 this.setState({ newTodo: '' });
                 addTodo(event.target.value);
               }}
+              ref={this.inputRef}
+              
             />
+            {!lastTodo ? (<></>) : isMobile ? ( <div className='isoContinueTodoMobile' onClick={event => {addTodo(lastTodo.todo)}} > Or tap here to continue previous TODO </div> ) : !this.state.newTodo ? (
+              <div className="isoExtendedPlaceholder" onClick={event => {addTodo(lastTodo.todo)}} >
+                Or click here to continue previous TODO
+              </div>
+            ) : (
+              <div style={{display: 'none'}} ></div>
+            ) }
+            
+          </div>
             : <div></div>
           }
         </Header>
@@ -78,6 +109,7 @@ function mapStateToProps(state, ownProps) {
   const userData = state.firebase.data[userId];
   const todos = _.has(userData, todosKey) ? userData[todosKey][daysAgoKey] : {};
   return {
+    app: state.App.toJS(),
     todos: _.map(todos, (todo, id) => {
       return Object.assign(todo, { 
         id,
