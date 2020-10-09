@@ -65,6 +65,23 @@ const WDTodoWrapper = styled.div`
         color: ${palette('grayscale', 0)};
       }
     }
+
+    .isoExtendedPlaceholder {
+      position: relative; 
+      bottom: 35px; 
+      left: 200px; 
+      font-size: 14px; 
+      color: #BABABA;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .isoContinueTodoMobile {
+      margin-top: 5px;
+      margin-left: 10px;
+      color: #BABABA;
+      cursor: pointer;
+    }
   }
 
   .isoTodoContentBody {
