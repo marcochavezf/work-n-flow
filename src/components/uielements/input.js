@@ -6,6 +6,7 @@ import {
   TextAreaWrapper,
 } from './styles/input.style';
 import WithDirection from '../../config/withDirection';
+import WithRef from '../../config/withRef';
 
 const { Search, TextArea, Group } = Input;
 
@@ -21,5 +22,5 @@ const InputSearch = WithDirection(WDInputSearch);
 const WDTextarea = TextAreaWrapper(TextArea);
 const Textarea = WithDirection(WDTextarea);
 
-export default StyledInput;
+export default WithRef(StyledInput);
 export { InputSearch, InputGroup, Textarea };
