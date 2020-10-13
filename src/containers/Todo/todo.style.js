@@ -66,7 +66,7 @@ const WDTodoWrapper = styled.div`
       }
     }
 
-    .isoExtendedPlaceholder {
+    .isoContinueTodoPlaceholder {
       position: relative; 
       bottom: 35px; 
       left: 200px; 
@@ -74,6 +74,7 @@ const WDTodoWrapper = styled.div`
       color: #BABABA;
       text-decoration: underline;
       cursor: pointer;
+      float: left;
     }
 
     .isoContinueTodoMobile {
@@ -81,6 +82,7 @@ const WDTodoWrapper = styled.div`
       margin-left: 10px;
       color: #BABABA;
       cursor: pointer;
+      float: left;
     }
   }
 

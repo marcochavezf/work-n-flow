@@ -13,7 +13,7 @@ function continueTodo({lastTodo, isMobile, newTodo, addTodo} : Props) {
     <></> ) : isMobile ? ( 
       <div className='isoContinueTodoMobile' onClick={() => {addTodo(lastTodo.todo)}} > Or tap here to continue previous Todo </div> 
       ) : !newTodo ? (
-    <div className="isoExtendedPlaceholder" onClick={() => {addTodo(lastTodo.todo)}} >
+    <div className="isoContinueTodoPlaceholder" onClick={() => {addTodo(lastTodo.todo)}} >
       Or click here to continue previous Todo
     </div>
   ) : (
