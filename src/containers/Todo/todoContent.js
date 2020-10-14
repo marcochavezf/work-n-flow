@@ -8,13 +8,20 @@ import { isLoaded, firebaseConnect } from 'react-redux-firebase';
 import { getTodosPath, getTodoPath } from '../../helpers/utility';
 import Input from '../../components/uielements/input';
 import TodoList from './todoList.tsx';
+import ContinueTodo from './continueTodo';
 import TodoPaginator from './todoPaginator';
 const { Header, Content } = Layout;
 
 class TodoContent extends Component {
+  
   state = {
     newTodo: ''
   }
+
+  /*getInputRef(element){
+    this.inputRef = element
+  }*/
+  
   render() {
     const {
       todos,
@@ -30,7 +37,11 @@ class TodoContent extends Component {
       playSound,
       changeTitle,
       registerLayoutOnClick,
+      app
     } = this.props;
+    
+    const lastTodo = todos[todos.length - 1]
+    const isMobile = app.view === 'MobileView';
     return (
       <div>
         <Content className="isoTodoContentBody">
@@ -54,6 +65,7 @@ class TodoContent extends Component {
         </Content>
         <Header className="isoTodoHeader">
           {daysAgo === 0 && !isLoading ?
+          <div>
             <Input
               placeholder={'Type here for add a new todo'}
               value={this.state.newTodo}
@@ -64,6 +76,14 @@ class TodoContent extends Component {
                 addTodo(event.target.value);
               }}
             />
+            <ContinueTodo 
+              lastTodo={lastTodo} 
+              isMobile={isMobile} 
+              addTodo={addTodo}
+              newTodo={this.state.newTodo} 
+            />
+            
+          </div>
             : <div></div>
           }
         </Header>
@@ -78,6 +98,7 @@ function mapStateToProps(state, ownProps) {
   const userData = state.firebase.data[userId];
   const todos = _.has(userData, todosKey) ? userData[todosKey][daysAgoKey] : {};
   return {
+    app: state.App.toJS(),
     todos: _.map(todos, (todo, id) => {
       return Object.assign(todo, { 
         id,

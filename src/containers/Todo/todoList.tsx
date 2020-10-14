@@ -61,6 +61,7 @@ export default class TodoList extends Component<TodoListProps> {
       }
     });
     return (
+      //@ts-ignore
       <TodoListWrapper className="isoTodoContent">
         {/*
         <div className="isoTodoStatusTab">

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import React from 'react';
 import { palette } from 'styled-theme';
 import { transition } from '../../../config/style-util';
 
-const Buttons = ComponentName => styled(ComponentName)`
+const Buttons = ComponentName => styled(({elementRef, ...props}) => <ComponentName {...props} ref={elementRef} />)`
   &.ant-btn {
     display: inline-block;
     margin-bottom: 0;

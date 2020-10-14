@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from 'react';
 import { palette } from 'styled-theme';
 import {
   transition,
@@ -6,7 +7,7 @@ import {
   boxShadow,
 } from '../../../config/style-util';
 
-const InputWrapper = ComponentName => styled(ComponentName)`
+const InputWrapper = ComponentName => styled(({elementRef, ...rest}) => <ComponentName {...rest} ref={elementRef} />)`
   &.ant-input {
     padding: 4px 10px;
     width: 100%;
@@ -235,7 +236,7 @@ const TextAreaWrapper = ComponentName => styled(ComponentName)`
   }
 `;
 
-const InputSearchWrapper = ComponentName => styled(ComponentName)`
+const InputSearchWrapper = ComponentName => styled(({elementRef, ...rest}) => <ComponentName {...rest} ref={elementRef} />)`
   &.ant-input-affix-wrapper {
     .ant-input {
       padding: 4px 10px;
