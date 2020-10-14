@@ -40,6 +40,11 @@ export function filterTodos(todos, daysAgo = 0) {
   });
 }
 
+export function getDateDaysAgo(daysAgo) {
+  const todayDate = new Date();
+  return new Date(todayDate - dayInMilliseconds * daysAgo)
+}
+
 export function getTodosPath({ daysAgo, userId }) {
   const todayDate = new Date();
   const dateDaysAgo = new Date(todayDate - dayInMilliseconds * daysAgo)
