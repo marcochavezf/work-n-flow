@@ -19,6 +19,8 @@ import { getTodosPath, getStatus, todoStatus } from '../../helpers/utility';
 import lotusDisabled from '../../image/icons/lotus_disabled.png';
 import lotusEnabled from '../../image/icons/lotus_enabled.png';
 
+import Calendar from 'components/calendar/myCalendar';
+
 // const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
 const { Sider } = Layout;
@@ -88,7 +90,7 @@ class Sidebar extends Component {
 
   render() {
     // const { url, app, toggleOpenDrawer, bgcolor } = this.props;
-    const { app, toggleOpenDrawer, customizedTheme, totalCompletedTodos, isLoading } = this.props;
+    const { app, toggleOpenDrawer, customizedTheme, totalCompletedTodos, isLoading, daysAgo } = this.props;
     const url = stripTrailingSlash(this.props.url);
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
@@ -170,6 +172,7 @@ class Sidebar extends Component {
             </span>
             {
               !collapsed ?
+              <>
               <div>
                   { 
                     arrayNumberRows.map(rowIndex => 
@@ -195,7 +198,11 @@ class Sidebar extends Component {
                         [1,2,3,4].map(i => <img key={i} width="45px" src={lotusImg} alt="icon" />)
                       }
                     </div> */}
-                </div> : ''
+                </div>
+
+                <Calendar daysAgo={daysAgo} />
+                </>
+                : ''
             }
             </div>
 
