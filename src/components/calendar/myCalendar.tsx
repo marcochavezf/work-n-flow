@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import todoAction from '../../redux/todos/actions.js';
 
 //Component Imports
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import {DarkStyledCalendar} from './myCalendar.style'
 
 //dayjs 
 import dayjs from 'dayjs'; 
@@ -15,14 +14,6 @@ import dayjs from 'dayjs';
 import {getDateDaysAgo} from 'helpers/utility';
 
 function calendar({daysAgo, updateDaysAgo}) {
-
-  /*const [dateSelected, setDateSelected] = React.useState(getDateDaysAgo(daysAgo))
-
-  
-
-  React.useEffect(() => {
-    setDateSelected(getDateDaysAgo(daysAgo))
-  }, [daysAgo])*/
 
   const dateSelected = getDateDaysAgo(daysAgo)
 
@@ -37,10 +28,16 @@ function calendar({daysAgo, updateDaysAgo}) {
   }
 
   return (
-    <Calendar
+    <DarkStyledCalendar
       value={dateSelected}
       onChange={handleChange}
       maxDate={new Date()}
+      prev2Label={null}
+      next2Label={null}
+      calendarType="US"
+      locale="en"
+      showNeighboringMonth={false}
+      minDetail="month"
     />
   )
 }
