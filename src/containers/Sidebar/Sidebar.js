@@ -84,7 +84,7 @@ class Sidebar extends Component {
       paddingLeft: rtl === 'rtl' ? '9px' : '0'
     };
     return (
-      <div className="box" style={{ ...style, ...viewStyle }} {...props} />
+      <div className="box" style={{ ...style, ...viewStyle, overflow: 'overlay' }} {...props} />
     );
   }
 
