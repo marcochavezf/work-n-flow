@@ -37,7 +37,7 @@ function calendar({daysAgo, updateDaysAgo}) {
       calendarType="US"
       locale="en"
       showNeighboringMonth={false}
-      minDetail="month"
+      minDetail="year"
     />
   )
 }

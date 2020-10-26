@@ -150,11 +150,11 @@ export const DarkStyledCalendar = styled(Calendar)`
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
-  margin: 20px 15px auto;
+  margin: 20px 14px auto 14px;
   background-image: initial;
-  background: rgb(24, 26, 27);
+  background: #1F2431;
   border-color: rgb(76, 83, 86);
-  color: #9E9D9C;
+  color: #F9F9F9;
 }
 .react-calendar--doubleView {
   width: 700px;
@@ -182,7 +182,7 @@ export const DarkStyledCalendar = styled(Calendar)`
 }
 &.react-calendar button:enabled:hover {
   cursor: pointer;
-  background: #26292B;
+  background: #323a4f;
 }
 .react-calendar__navigation {
   height: 44px;
@@ -197,12 +197,12 @@ export const DarkStyledCalendar = styled(Calendar)`
   min-width: 39px;
   background: none;
 }
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: rgb(38, 41, 43);
+.react-calendar__navigation button:enabled:hover {
+  background-color: #323a4f;
 }
 .react-calendar__navigation button[disabled] {
-  background-color: rgb(32, 35, 37);
+  background-color: #08090d;
+  color: #525252;
 }
 &.react-calendar__month-view__weekdays {
   text-align: center;
@@ -213,7 +213,7 @@ export const DarkStyledCalendar = styled(Calendar)`
 .react-calendar__month-view__weekdays__weekday {
   padding: 0.5em;
   abbr[title] {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
@@ -229,9 +229,6 @@ export const DarkStyledCalendar = styled(Calendar)`
   padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
 }
 
-.react-calendar__month-view__days__day--weekend {
-  color: #d10000;
-}
 
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
@@ -248,12 +245,12 @@ export const DarkStyledCalendar = styled(Calendar)`
   background: none;
 }
 .react-calendar__tile:disabled {
-  background-color: rgb(32, 35, 37);;
+  background-color: #08090d;
   color: #525252;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: #323a4f;
 }
 .react-calendar__tile--now {
   background: #444427;
@@ -264,7 +261,7 @@ export const DarkStyledCalendar = styled(Calendar)`
   color: white;
 }
 .react-calendar__tile--hasActive {
-  background: #76baff;
+  background: #007fff;
 }
 .react-calendar__tile--hasActive:enabled:focus {
   background: #a9d4ff;
