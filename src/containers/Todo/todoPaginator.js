@@ -2,14 +2,13 @@ import React from 'react';
 import Button from '../../components/uielements/button';
 
 export default function TodoPaginator(props) {
-  const pageLimit = 7;
+
   const { updateDaysAgo, daysAgo } = props;
   return (
     <div className="todoPagination">
       <Button
         icon="left"
         className="paginationButton"
-        disabled={daysAgo === pageLimit}
         onClick={() => updateDaysAgo(daysAgo + 1)}
       />
       <span className="spanTodoPagination">
