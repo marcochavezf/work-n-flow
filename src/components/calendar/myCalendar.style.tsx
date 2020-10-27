@@ -150,7 +150,7 @@ export const DarkStyledCalendar = styled(Calendar)`
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
-  margin: 20px 14px auto 14px;
+  margin: 20px 13px auto 14px;
   background-image: initial;
   background: #1F2431;
   border-color: rgb(76, 83, 86);
