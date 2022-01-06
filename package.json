@@ -100,7 +100,7 @@
     "styled-components": "^2.2.1",
     "styled-theme": "^0.3.3",
     "typescript": "~3.7.2",
-    "uppy": "^0.18.0"
+    "uppy": "^2.3.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
